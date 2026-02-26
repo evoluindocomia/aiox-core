@@ -12,7 +12,7 @@ The system is organized into three main categories:
 
 The fundamental squad that handles the software development life cycle (SDLC).
 
-- **Available:** `@dev`, `@qa`, `@architect`, `@pm`, `@po`, `@sm`, `@analyst`, `@data-engineer`, `@ux-design-expert`, `@devops`, `@squad-chief`, `@research-specialists`.
+- **Available:** `@dev`, `@qa`, `@architect`, `@pm`, `@po`, `@sm`, `@analyst`, `@data-engineer`, `@ux`, `@devops`, `@brad-frost`, `@squad-chief`, `@research-specialists`.
 - **Location:** `.antigravity/agents/`
 
 ### 2. Specialized Chiefs
@@ -26,7 +26,7 @@ Domain-specific orchestrators that manage complex subsystems.
 
 High-fidelity clones of real-world experts, created via the DNA Mental™ process.
 
-- **Members:** `brad-frost`, `dan-mall`, `brad-frost-atomic`, etc.
+- **Members:** `brad-frost`, `dan-mall`, and other domain-specific clones.
 - **Location:** `.antigravity/agents/`
 
 ---

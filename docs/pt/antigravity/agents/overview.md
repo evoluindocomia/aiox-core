@@ -49,16 +49,17 @@ Cada agente tem escopo definido. Respeitar os limites de escopo é **obrigatóri
 
 ## Mapeamento Agente → Codebase
 
-| Agente              | Diretórios Principais                   |
-| ------------------- | --------------------------------------- |
-| `@dev`              | `packages/`, `.aios-core/core/`, `bin/` |
-| `@architect`        | `docs/architecture/`, design de sistema |
-| `@data-engineer`    | `packages/db/`, migrations, schema      |
-| `@qa`               | `tests/`, `*.test.js`, quality gates    |
-| `@po`               | Stories, epics, requirements            |
-| `@devops`           | `.github/`, CI/CD, git operations       |
-| `@ux-design-expert` | UI/UX, mockups, design system           |
-| `@squad-chief`      | `squads/`, criação de agentes           |
+| Agente           | Diretórios Principais                   |
+| ---------------- | --------------------------------------- |
+| `@dev`           | `packages/`, `.aios-core/core/`, `bin/` |
+| `@architect`     | `docs/architecture/`, design de sistema |
+| `@data-engineer` | `packages/db/`, migrations, schema      |
+| `@qa`            | `tests/`, `*.test.js`, quality gates    |
+| `@po`            | Stories, epics, requirements            |
+| `@devops`        | `.github/`, CI/CD, git operations       |
+| `@ux`            | UI/UX, mockups, design system           |
+| `@brad-frost`    | Design System, Atomic Design            |
+| `@squad-chief`   | `squads/`, criação de agentes           |
 
 ---
 
@@ -154,6 +155,22 @@ O `@squad-chief` orquestra dois subagentes especializados:
 | `oalanicolas`   | Clonagem de mente, extração de DNA, fidelidade | `squads/squad-creator/agents/oalanicolas.md`          |
 | `pedro-valerio` | Design de workflow, validação de processo      | `squads/squad-creator/agents/pedro-valerio.md`        |
 | `research-...`  | Deep research e frameworks                     | `squads/squad-creator/agents/research-specialists.md` |
+
+---
+
+## Handoffs entre Workflows
+
+Além do handoff entre agentes, os workflows se encadeiam naturalmente. Ao concluir um workflow, o agente notifica qual workflow pode ser o próximo:
+
+| Workflow Concluído        | Próximo Sugerido                  |
+| ------------------------- | --------------------------------- |
+| `brownfield-discovery`    | `brownfield-fullstack/service/ui` |
+| `spec-pipeline`           | `epic-orchestration`              |
+| `epic-orchestration`      | `story-development-cycle`         |
+| `story-development-cycle` | `qa-loop` (se QA reprovar)        |
+| `greenfield-ui`           | `design-system-build`             |
+
+> Ver detalhes: [`.antigravity/rules/agent-handoff.md`](../../../../.antigravity/rules/agent-handoff.md)
 
 ---
 

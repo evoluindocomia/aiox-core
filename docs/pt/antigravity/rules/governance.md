@@ -60,7 +60,7 @@ package.json   |  tsconfig.json  |  .env  |  README.md
 **Checklist — verificar se é agente funcional:**
 
 - [ ] O agent-id tem sufixo funcional?  
-      (`-chief`, `-orchestrator`, `-chair`, `-validator`, `-calculator`, `-generator`, `-extractor`, `-analyzer`, `-architect`, `-mapper`, `-designer`, `-engineer`)
+       (`-chief`, `-orchestrator`, `-chair`, `-validator`, `-calculator`, `-generator`, `-extractor`, `-analyzer`, `-architect`, `-mapper`, `-designer`, `-engineer`)
 - [ ] Ou começa com `tools-`, `process-`, `workflow-`?
 
 **Se SIM** → ✅ Agente funcional. Criar normalmente.
@@ -131,7 +131,36 @@ npm test             # ✅ deve passar
 
 ---
 
-### 🟡 Antes de SALVAR documentos
+### 🟡 Antes de CRIAR ou REMOVER Git Worktrees
+
+**Gatilho:** `run_command` com `git worktree add` ou `git worktree remove`
+
+**Verificação obrigatória:**
+
+- [ ] O agente ativo é `@devops` (Gage)?
+
+Se NÃO → **BLOQUEAR.** Worktrees devem ser gerenciados apenas por @devops:
+
+```
+→ @devops *create-worktree {branch}
+→ @devops *remove-worktree {branch}
+→ @devops *list-worktrees
+```
+
+Se SIM → Seguir protocolo do workflow `auto-worktree.md`.
+
+---
+
+### 🟡 Antes de usar `mcp_stitch_*`
+
+**Gatilho:** Qualquer invocação de ferramentas Stitch MCP
+
+**Verificação:**
+
+- [ ] O contexto é de Design System ou UI? (workflows: `design-system-build.md`, `greenfield-ui.md`, `brownfield-ui.md`)
+
+Se SIM → Prosseguir normalmente.
+Se NÃO → Alertar: use Stitch MCP apenas no contexto de workflows de UI/Design System.
 
 Verificar se o tipo de documento está no path correto:
 

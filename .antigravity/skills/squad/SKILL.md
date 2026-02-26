@@ -94,6 +94,11 @@ Para cada agente baseado em mente:
 | `*status`                | Mostrar estado atual            |
 | `*help`                  | Mostrar todos os comandos       |
 
+## Workflow Associado
+
+Esta skill executa o workflow **`.antigravity/workflows/create-squad.md`**.
+Para criação de mentes individuais: **`.antigravity/skills/clone-mind/SKILL.md`**.
+
 ## Auto-Triggers
 
 Quando o usuário mencionar criação de squad:

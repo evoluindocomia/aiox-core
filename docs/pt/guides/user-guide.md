@@ -26,7 +26,9 @@ Antes de usar o AIOS, certifique-se de ter:
 - **Node.js** versão 18.0.0 ou superior
 - **npm** versão 8.0.0 ou superior
 - **Git** para controle de versão
-- Uma chave de API de provedor de IA (Anthropic, OpenAI ou compatível)
+- Uma chave de API de provedor de IA:
+  - **Claude Code / Cursor:** `ANTHROPIC_API_KEY` (Anthropic) — obrigatória
+  - **AntiGravity (Gemini Code Assist):** autenticação via conta Google — **sem chave de API**
 
 ### Instalação
 
@@ -284,7 +286,7 @@ npm run build        # Build do projeto
 A configuração principal está em `.aios-core/core/config/`:
 
 ```yaml
-# aios.config.yaml
+# aios.config.yaml — exemplo para Claude Code
 version: 2.1.0
 projectName: my-project
 
@@ -302,12 +304,26 @@ ai:
 environment: development
 ```
 
+```yaml
+# aios.config.yaml — exemplo para AntiGravity (Gemini)
+ai:
+  provider: gemini
+  model: gemini-2.0-flash
+```
+
 ### Variáveis de Ambiente
 
 ```bash
-# Configuração do Provedor de IA
+# Para Claude Code / Cursor (Anthropic) — obrigatório
 ANTHROPIC_API_KEY=sua-chave-anthropic-api
-# ou
+
+# Para AntiGravity (Gemini Code Assist)
+# NÃO é necessário GEMINI_API_KEY para uso padrão via IDE!
+# A autenticação é feita pela sua conta Google através da extensão.
+# GEMINI_API_KEY só é necessária para chamadas programáticas à API:
+# GEMINI_API_KEY=sua-chave-gemini-api   # opcional
+
+# Opcional: Fallback OpenAI
 OPENAI_API_KEY=sua-chave-openai-api
 
 # Configurações do Framework
@@ -317,16 +333,65 @@ AIOS_DEBUG=false
 
 ### Integração com IDE
 
-O AIOS suporta múltiplas IDEs. A configuração é sincronizada entre:
+O AIOS suporta múltiplas IDEs. A configuração é sincronizada automaticamente entre:
 
-- Claude Code (`.claude/`)
-- Cursor (`.cursor/`)
-- VS Code (`.vscode/`)
+| IDE                              | Diretório       | Provider de IA |
+| -------------------------------- | --------------- | -------------- |
+| Claude Code                      | `.claude/`      | `anthropic`    |
+| Cursor                           | `.cursor/`      | qualquer       |
+| AntiGravity (Gemini Code Assist) | `.antigravity/` | `gemini`       |
+| GitHub Copilot                   | `.github/`      | qualquer       |
+| Codex                            | `.codex/`       | qualquer       |
 
 ```bash
-# Sincronizar agentes para sua IDE
+# Sincronizar agentes para todas as IDEs (inclui AntiGravity por padrão)
 npm run sync:ide
+
+# Sincronizar apenas para AntiGravity
+npm run sync:ide:antigravity
 ```
+
+---
+
+## Usando com AntiGravity
+
+> **AntiGravity** é o ambiente nativo do Antigravit para uso com **Gemini Code Assist** (Google). Oferece paridade funcional com Claude Code e ferramentas exclusivas.
+
+### Por que AntiGravity?
+
+| Característica         | Claude Code         | AntiGravity                                      |
+| ---------------------- | ------------------- | ------------------------------------------------ |
+| IDE                    | Claude Code         | Gemini Code Assist                               |
+| Provider               | `anthropic`         | `gemini`                                         |
+| Chave de API           | `ANTHROPIC_API_KEY` | `GEMINI_API_KEY`                                 |
+| Configuração           | `.claude/`          | `.antigravity/`                                  |
+| Ferramentas exclusivas | —                   | Stitch MCP, `generate_image`, `browser_subagent` |
+| Agentes                | Todos (11)          | Todos (11)                                       |
+
+### Pré-requisitos
+
+1. **IDE Gemini Code Assist** — instalar a extensão no VS Code e fazer login com conta Google
+2. **Node.js 18+** e **Git** (mesmo que para Claude Code)
+3. **Sem chave de API necessária** — o Gemini Code Assist autentica pela sua conta Google
+
+### Ativação Rápida
+
+```bash
+# Novo projeto com AntiGravity
+npx aios-core init my-project
+cd my-project
+
+# Configurar .env
+echo "GEMINI_API_KEY=sua-chave" >> .env
+
+# Verificar .antigravity/ presente
+ls .antigravity/
+```
+
+### Documentação AntiGravity
+
+- [Guia Prático AntiGravity](./antigravity-guide.md) — guia step-by-step completo
+- [Getting Started AntiGravity](../../pt/antigravity/getting-started.md) — referência técnica
 
 ---
 
@@ -445,6 +510,7 @@ aios squads search {keyword}
 - [Guia de Referência de Agentes](../agent-reference-guide.md)
 - [Visão Geral da Arquitetura](../architecture/ARCHITECTURE-INDEX.md)
 - [Guia de Squads](./squads-guide.md)
+- [**Guia Prático AntiGravity**](./antigravity-guide.md)
 - [Solução de Problemas](../troubleshooting.md)
 
 ---

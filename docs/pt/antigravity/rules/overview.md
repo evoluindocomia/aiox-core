@@ -2,6 +2,8 @@
 
 As **8 rules** em `.antigravity/rules/` definem como os agentes se comportam. São carregadas automaticamente ou por contexto (via `paths:` frontmatter).
 
+> **Atualizado:** 2026-02-26 — `workflow-execution.md` cobre agora todos os **14 workflows**.
+
 ---
 
 ## O que são Rules no Antigravit?
@@ -21,7 +23,7 @@ Rules são arquivos `.md` que o Antigravit injeta no contexto dos agentes. Difer
 | `ids-principles.md`       | Migrado  | IDS: REUSE > ADAPT > CREATE                                 |
 | `story-lifecycle.md`      | Migrado  | Ciclo de vida das stories                                   |
 | `tool-usage.md`           | **NOVO** | Regras de uso de ferramentas + MCP                          |
-| `workflow-execution.md`   | Migrado  | 4 workflows primários e como executá-los                    |
+| `workflow-execution.md`   | Migrado  | 14 workflows completos + guia de seleção                    |
 
 ---
 
@@ -139,14 +141,16 @@ Prioridade de uso de ferramentas:
 
 ### 🔄 Workflow Execution (`workflow-execution.md`)
 
-Os 4 workflows primários e quando acioná-los:
+Os 14 workflows e quando acioná-los — agora com guia de seleção completo:
 
-| Workflow                  | Trigger                      | Responsável                        |
-| ------------------------- | ---------------------------- | ---------------------------------- |
-| `story-development-cycle` | `@sm *draft`                 | `@sm → @po → @dev → @qa → @devops` |
-| `create-squad`            | `@squad-chief *create-squad` | `@squad-chief → @oalanicolas`      |
-| `brownfield-discovery`    | Projetos legados             | `@architect → @analyst`            |
-| `spec-pipeline`           | Nova feature complexa        | `@pm → @architect → @dev`          |
+| Categoria              | Workflows                                                                             |
+| ---------------------- | ------------------------------------------------------------------------------------- |
+| Greenfield (Novo)      | `greenfield-fullstack`, `greenfield-service`, `greenfield-ui`                         |
+| Brownfield (Existente) | `brownfield-discovery`, `brownfield-fullstack`, `brownfield-service`, `brownfield-ui` |
+| Desenvolvimento        | `story-development-cycle`, `spec-pipeline`, `epic-orchestration`, `qa-loop`           |
+| Especiais              | `design-system-build`, `create-squad`, `auto-worktree`                                |
+
+> Índice de seleção: [`.antigravity/workflows/README.md`](../../../../.antigravity/workflows/README.md)
 
 ---
 

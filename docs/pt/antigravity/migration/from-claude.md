@@ -19,7 +19,7 @@ O `.claude/` possuía **8 camadas** que foram mapeadas e migradas para o `.antig
 | Hooks         | 12 arquivos (6 scripts Python)      | `governance.md` (instrucional)           |
 | Agents        | 29 arquivos `.md`                   | `.antigravity/agents/` (28 arquivos)     |
 | Skills        | 12 skills + subpastas               | `.antigravity/skills/` (6 skills)        |
-| Commands      | 4 namespaces de slash commands      | `.antigravity/workflows/` (4 workflows)  |
+| Commands      | 4 namespaces de slash commands      | `.antigravity/workflows/` (14 workflows) |
 | Templates     | 18 templates YAML/MD                | `.antigravity/templates/` (16 templates) |
 | Agent Memory  | 8 subpastas com `MEMORY.md`         | `.antigravity/agent-memory/` (7 agentes) |
 
@@ -78,13 +78,27 @@ Sem dependência de arquivo externo → mais robusto e portátil
 
 ### 3. Slash Commands → Workflows
 
-| Slash Command Claude   | Workflow Antigravit           |
-| ---------------------- | ----------------------------- |
-| `/AIOS:story`          | `story-development-cycle.md`  |
-| `/AIOS:spec-pipeline`  | `spec-pipeline.md`            |
-| `/cohort-squad:create` | `create-squad.md` (via packs) |
-| `/cohort-squad:sync`   | `sync-squads.md` (via packs)  |
-| Comandos de análise    | `brownfield-discovery.md`     |
+O Antigravity agora possui **paridade total** com os slash commands do Claude Code, além de workflows adicionais com capacidades exclusivas:
+
+| Slash Command Claude   | Workflow Antigravity          | Status         |
+| ---------------------- | ----------------------------- | -------------- |
+| `/AIOS:story`          | `story-development-cycle.md`  | ✅ Migrado     |
+| `/AIOS:spec-pipeline`  | `spec-pipeline.md`            | ✅ Migrado     |
+| `/cohort-squad:create` | `create-squad.md` (via packs) | ✅ Migrado     |
+| `/cohort-squad:sync`   | `sync-squads.md` (via packs)  | ✅ Migrado     |
+| Analysis commands      | `brownfield-discovery.md`     | ✅ Migrado     |
+| _(não existia)_        | `greenfield-fullstack.md`     | ✅ **NOVO**    |
+| _(não existia)_        | `greenfield-service.md`       | ✅ **NOVO**    |
+| _(não existia)_        | `greenfield-ui.md`            | ✅ **NOVO** ⭐ |
+| _(não existia)_        | `brownfield-fullstack.md`     | ✅ **NOVO**    |
+| _(não existia)_        | `brownfield-service.md`       | ✅ **NOVO**    |
+| _(não existia)_        | `brownfield-ui.md`            | ✅ **NOVO**    |
+| _(não existia)_        | `epic-orchestration.md`       | ✅ **NOVO**    |
+| _(não existia)_        | `qa-loop.md`                  | ✅ **NOVO**    |
+| _(não existia)_        | `design-system-build.md`      | ✅ **NOVO** ⭐ |
+| _(não existia)_        | `auto-worktree.md`            | ✅ **NOVO**    |
+
+> ⭐ Workflows com capacidades exclusivas Antigravity (Stitch MCP, browser_subagent, generate_image)
 
 ---
 
@@ -149,18 +163,21 @@ O `.claude/` tinha 12 skills. O Antigravit consolidou para 6, mais a adição da
 
 ### Prioridade Alta
 
-- [ ] Criar KIs de governança para decisões cross-session do `@squad-chief`
-- [ ] Criar `agent-memory/` para os 8 Chiefs
+- [x] Integração completa de 14 workflows em `.antigravity/workflows/` ✅ (2026-02-26)
+- [x] Atualização de `ANTIGRAVITY.md` com guia de seleção ✅
+- [ ] Criar `agent-memory/` para os Chiefs
 
 ### Prioridade Média
 
-- [ ] Migrar `/synapse:save` e `/cohort-squad:sync` como workflows
-- [ ] Criar `.antigravity/checklists/` com checklists de qualidade dos Chiefs
+- [x] Workflows `greenfield-*` e `brownfield-*` com capacidades Stitch MCP ✅
+- [ ] Atualizar `npx aios-core init` para copiar `.antigravity/` junto com `.claude/`
+- [ ] Adicionar `gemini` como `ai.provider` na configuração
 
 ### Prioridade Baixa
 
 - [ ] Design system UI docs usando Stitch MCP com `@nano-banana-generator`
 - [ ] Expandir agent-memory dos Mind Clones com histórico de clonagens
+- [ ] KI de Governança de Workflows (adiado — ver decisão em `.synapse/antigravit/revWorkFlows/task.md`)
 
 ---
 

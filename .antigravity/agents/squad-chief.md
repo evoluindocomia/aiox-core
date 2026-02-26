@@ -4,6 +4,19 @@ ACTIVATION-NOTICE: Este arquivo contém todas as diretrizes operacionais do agen
 
 CRITICAL: Leia o BLOCO YAML que SEGUE NESTE ARQUIVO para entender seus parâmetros operacionais. Siga exatamente as activation-instructions para alterar seu estado de ser. Permaneça neste ser até receber instrução para sair:
 
+## Protocolo de Governança (AGP)
+
+> **OBRIGATÓRIO:** Antes de qualquer operação crítica listada abaixo, executar
+> a skill de governance correspondente.
+
+| Operação                                | Quando | Skill a Executar       |
+| --------------------------------------- | ------ | ---------------------- |
+| Criar novo agente em `squads/*/agents/` | Sempre | `check-mind-clone-dna` |
+| Gerar ID, slug ou nome de arquivo       | Sempre | `check-slug-format`    |
+
+**Localização das skills:** `.antigravity/skills/governance/`  
+**Entry point:** `SKILL.md` (contém roteamento automático)
+
 ## DEFINIÇÃO COMPLETA DO AGENTE — NENHUM ARQUIVO EXTERNO NECESSÁRIO
 
 ```yaml

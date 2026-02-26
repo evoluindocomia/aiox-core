@@ -107,3 +107,32 @@ Após switch `@dev` → `@qa`:
 - Artefato de handoff de `@dev` é **retido** ao lado do handoff de `@sm`
 - Persona completa de `@qa` é **carregada**
 - **Contexto total: ~5.2K** em vez de ~12K (redução de 57% após 2 switches)
+
+---
+
+## Handoffs entre Workflows
+
+Além do handoff entre agentes, alguns workflows se encadeiam naturalmente. Ao concluir um workflow, o agente deve comunicar qual workflow é o próximo sugerido:
+
+| Workflow Concluído        | Próximo Workflow Sugerido                 | Condição                               |
+| ------------------------- | ----------------------------------------- | -------------------------------------- |
+| `brownfield-discovery`    | `brownfield-fullstack` / `service` / `ui` | Baseado no tipo de evolução necessária |
+| `spec-pipeline`           | `epic-orchestration`                      | Após PRD e épicos gerados              |
+| `epic-orchestration`      | `story-development-cycle`                 | Para cada story do épico               |
+| `story-development-cycle` | `qa-loop`                                 | Apenas se QA emitir NEEDS_WORK         |
+| `greenfield-ui`           | `design-system-build`                     | Quando design system for necessário    |
+| `greenfield-fullstack`    | `epic-orchestration`                      | Após fragmentação de documentos        |
+| `brownfield-fullstack`    | `epic-orchestration`                      | Após criação do épico brownfield       |
+
+### Prompt de Notificação de Handoff de Workflow
+
+Ao encerrar um workflow, use este padrão:
+
+```
+🔄 Workflow `{workflow-atual}` concluído.
+
+Próximo passo sugerido: `{proximo-workflow}`
+Para iniciar: [instrução de invocação]
+
+Deseja prosseguir?
+```

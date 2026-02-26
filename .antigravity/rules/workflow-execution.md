@@ -161,3 +161,43 @@ Cada declaração em spec.md DEVE rastrear para FR-_, NFR-_, CON-\*, ou resultad
 | Feature complexa precisa de spec            | Spec Pipeline → então SDC |
 | Entrando em projeto existente               | Brownfield Discovery      |
 | Correção simples de bug                     | SDC apenas (modo YOLO)    |
+
+---
+
+## Todos os 14 Workflows AIOS (Referência Completa)
+
+> Ver `.antigravity/workflows/README.md` para guia de seleção visual completo.
+
+### Greenfield (Novos Projetos)
+
+| Workflow              | Arquivo                   | Quando Usar                   |
+| --------------------- | ------------------------- | ----------------------------- |
+| Greenfield Full-Stack | `greenfield-fullstack.md` | App full-stack do zero        |
+| Greenfield Service    | `greenfield-service.md`   | Backend/API do zero           |
+| Greenfield UI         | `greenfield-ui.md`        | Frontend do zero + Stitch MCP |
+
+### Brownfield (Projetos Existentes)
+
+| Workflow              | Arquivo                   | Quando Usar                   |
+| --------------------- | ------------------------- | ----------------------------- |
+| Brownfield Discovery  | `brownfield-discovery.md` | Primeiro mapeamento de legado |
+| Brownfield Full-Stack | `brownfield-fullstack.md` | Evolução full-stack existente |
+| Brownfield Service    | `brownfield-service.md`   | Evolução backend existente    |
+| Brownfield UI         | `brownfield-ui.md`        | Evolução frontend existente   |
+
+### Desenvolvimento e Processo
+
+| Workflow              | Arquivo                      | Quando Usar                 |
+| --------------------- | ---------------------------- | --------------------------- |
+| Story Dev Cycle (SDC) | `story-development-cycle.md` | Uma story completa          |
+| Spec Pipeline         | `spec-pipeline.md`           | Ideia → PRD → Stories       |
+| Epic Orchestration    | `epic-orchestration.md`      | Gerenciar épico completo    |
+| QA Loop               | `qa-loop.md`                 | Ciclo iterativo de correção |
+
+### Especiais
+
+| Workflow            | Arquivo                  | Quando Usar                   |
+| ------------------- | ------------------------ | ----------------------------- |
+| Design System Build | `design-system-build.md` | Criar/refatorar design system |
+| Create Squad        | `create-squad.md`        | Criar squad de mind clones    |
+| Auto Worktree       | `auto-worktree.md`       | Desenvolvimento em paralelo   |

@@ -165,11 +165,26 @@ Use prefixo `*` para comandos dentro de um agente:
 3. **Rastreie mudanças** - Mantenha a seção File List na story
 4. **Siga critérios** - Implemente exatamente o que os acceptance criteria especificam
 
-### Workflow de Story
+### Guia de Seleção de Workflow
 
-```
-@po *create-story → @dev implementa → @qa testa → @devops push
-```
+> **Documento completo:** `.antigravity/workflows/README.md`
+
+| Situação                        | Workflow a Usar              |
+| ------------------------------- | ---------------------------- |
+| App full-stack do zero          | `greenfield-fullstack.md`    |
+| Backend/API do zero             | `greenfield-service.md`      |
+| Frontend do zero                | `greenfield-ui.md`           |
+| Não conheço o projeto existente | `brownfield-discovery.md`    |
+| Evolução full-stack existente   | `brownfield-fullstack.md`    |
+| Evolução backend existente      | `brownfield-service.md`      |
+| Evolução frontend existente     | `brownfield-ui.md`           |
+| Ideia → PRD → Backlog completo  | `spec-pipeline.md`           |
+| Executar épico completo         | `epic-orchestration.md`      |
+| Implementar uma story           | `story-development-cycle.md` |
+| QA reprovou → ciclo de correção | `qa-loop.md`                 |
+| Criar/refatorar design system   | `design-system-build.md`     |
+| Criar squad de agentes IA       | `create-squad.md`            |
+| Paralelismo de features         | `auto-worktree.md`           |
 
 ### Ciclo Completo (Story Development Cycle — SDC)
 

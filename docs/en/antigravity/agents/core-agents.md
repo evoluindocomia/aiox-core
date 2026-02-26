@@ -11,13 +11,14 @@ The 11 fundamental agents of Synkra AIOS, all available in any project with the 
 | `@dev`                  | Dex                | Code Implementation             | `write_to_file`, `run_command`, `grep_search` |
 | `@qa`                   | Quinn              | Quality & Testing               | `run_command` (test), `find_by_name`          |
 | `@architect`            | Aria               | Architecture & Design           | `search_web`, `read_url_content`, `view_file` |
-| `@pm`                   | Morgan             | Product Management              | `view_file` (templates), `write_to_file`      |
-| `@po`                   | Pax                | Product Owner, Stories/Epics    | `view_file` (templates), `write_to_file`      |
+| `@pm`                   | Kai                | Product Management              | `view_file` (templates), `write_to_file`      |
+| `@po`                   | Nova               | Product Owner, Stories/Epics    | `view_file` (templates), `write_to_file`      |
 | `@sm`                   | River              | Scrum Master                    | `view_file`, model: `gemini-2.0-flash`        |
-| `@analyst`              | Alex               | Research & Intelligence         | `search_web`, `read_url_content`              |
+| `@analyst`              | Zara               | Research & Intelligence         | `search_web`, `read_url_content`              |
 | `@data-engineer`        | Dara               | Database Design                 | `run_command` (supabase), SQL governance      |
-| `@ux-design-expert`     | Uma                | UX/UI Design                    | `generate_image`, `mcp_stitch_*`              |
+| `@ux`                   | Uma                | UX/UI Design                    | `generate_image`, `mcp_stitch_*`              |
 | `@devops`               | Gage               | CI/CD, Git push (**EXCLUSIVE**) | `run_command` (git), `.github/`               |
+| `@brad-frost`           | Brad Frost         | Design System & Atomic Design   | `mcp_stitch_*`, `generate_image`              |
 | `@squad-chief`          | Squad Architect 🎨 | Squad & Mind Creation           | `search_web`, `write_to_file`                 |
 | `@research-specialists` | Research Team 🔍   | Deep Research & Frameworks      | `search_web`, `read_url_content`              |
 
@@ -78,7 +79,7 @@ The orchestrator of the **MINDS FIRST** philosophy. He creates complete squads w
 
 ---
 
-### `@ux-design-expert` — Uma (UX/UI)
+### `@ux` — Uma (UX/UI)
 
 **File:** `.antigravity/agents/aios-ux.md`
 
@@ -88,3 +89,18 @@ Uma is highly enriched in the Antigravity migration, featuring native access to 
 
 - `generate_image` (Assets/Mockups)
 - `mcp_stitch_*` (Professional Screen Generation)
+
+**Works with:** `@brad-frost` for Atomic Design System workflows.
+
+---
+
+### `@brad-frost` — Brad Frost (Design System)
+
+**File:** `.antigravity/agents/brad-frost.md`
+
+Mind clone of Brad Frost — creator of Atomic Design methodology. Used in `design-system-build.md` workflow.
+
+**Exclusive Tools:**
+
+- `mcp_stitch_*` (UI design and screen variants)
+- `generate_image` (Visual assets)

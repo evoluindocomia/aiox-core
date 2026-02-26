@@ -96,10 +96,16 @@ Quando task disser "pergunte ao usuário": decida autonomamente, documente como 
 - SEMPRE executar `npm run lint` e `npm run typecheck` antes de concluir
 - SEMPRE aplicar self-critique nos checkpoints designados
 
-## 7. Verificação de Governança (substitui hook)
+## 7. Protocolo de Governança (AGP)
 
-Antes de qualquer operação crítica, verificar `.antigravity/rules/governance.md`:
+> **OBRIGATÓRIO:** Antes de qualquer operação crítica listada abaixo, executar
+> a skill de governance correspondente.
 
-- Antes de escrever código em paths protegidos → verificar documentação
-- Slugs e IDs → validar snake_case
-- Nunca SQL direto → usar Supabase CLI
+| Operação                            | Quando                       | Skill a Executar           |
+| ----------------------------------- | ---------------------------- | -------------------------- |
+| Criar/editar arquivo em `supabase/` | Sempre                       | `check-architecture-first` |
+| Salvar documento em `docs/`         | Quando nome parece incorreto | `check-write-path`         |
+| Gerar ID, slug ou nome de arquivo   | Sempre                       | `check-slug-format`        |
+
+**Localização das skills:** `.antigravity/skills/governance/`  
+**Entry point:** `SKILL.md` (contém roteamento automático)

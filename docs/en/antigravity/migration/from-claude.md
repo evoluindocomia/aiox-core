@@ -19,7 +19,7 @@ The legacy `.claude/` environment had **8 layers** that were mapped to the new `
 | Hooks         | 12 files (6 Python scripts)         | `governance.md` (instructional)          |
 | Agents        | 29 `.md` files                      | `.antigravity/agents/` (28 files)        |
 | Skills        | 12 skills + subfolders              | `.antigravity/skills/` (6 skills)        |
-| Commands      | 4 slash command namespaces          | `.antigravity/workflows/` (4 workflows)  |
+| Commands      | 4 slash command namespaces          | `.antigravity/workflows/` (14 workflows) |
 | Templates     | 18 YAML/MD templates                | `.antigravity/templates/` (16 templates) |
 | Agent Memory  | 8 subfolders with `MEMORY.md`       | `.antigravity/agent-memory/` (7 agents)  |
 
@@ -51,28 +51,34 @@ Antigravit agents have their persona **INLINE** within the agent file (e.g., `.a
 
 ### 3. Slash Commands → Workflows
 
-| Claude Command         | Antigravit Workflow           |
-| ---------------------- | ----------------------------- |
-| `/AIOS:story`          | `story-development-cycle.md`  |
-| `/AIOS:spec-pipeline`  | `spec-pipeline.md`            |
-| `/cohort-squad:create` | `create-squad.md` (via packs) |
-| `/cohort-squad:sync`   | `sync-squads.md` (via packs)  |
-| Analysis commands      | `brownfield-discovery.md`     |
+Antigravity now has **full parity** with Claude Code slash commands, plus additional workflows with exclusive capabilities:
+
+| Claude Command         | Antigravity Workflow          | Status        |
+| ---------------------- | ----------------------------- | ------------- |
+| `/AIOS:story`          | `story-development-cycle.md`  | ✅ Migrated   |
+| `/AIOS:spec-pipeline`  | `spec-pipeline.md`            | ✅ Migrated   |
+| `/cohort-squad:create` | `create-squad.md` (via packs) | ✅ Migrated   |
+| `/cohort-squad:sync`   | `sync-squads.md` (via packs)  | ✅ Migrated   |
+| Analysis commands      | `brownfield-discovery.md`     | ✅ Migrated   |
+| _(did not exist)_      | `greenfield-fullstack.md`     | ✅ **NEW**    |
+| _(did not exist)_      | `greenfield-service.md`       | ✅ **NEW**    |
+| _(did not exist)_      | `greenfield-ui.md`            | ✅ **NEW** ⭐ |
+| _(did not exist)_      | `brownfield-fullstack.md`     | ✅ **NEW**    |
+| _(did not exist)_      | `brownfield-service.md`       | ✅ **NEW**    |
+| _(did not exist)_      | `brownfield-ui.md`            | ✅ **NEW**    |
+| _(did not exist)_      | `epic-orchestration.md`       | ✅ **NEW**    |
+| _(did not exist)_      | `qa-loop.md`                  | ✅ **NEW**    |
+| _(did not exist)_      | `design-system-build.md`      | ✅ **NEW** ⭐ |
+| _(did not exist)_      | `auto-worktree.md`            | ✅ **NEW**    |
+
+> ⭐ Workflows with exclusive Antigravity capabilities (Stitch MCP, browser_subagent, generate_image)
 
 ---
 
-## Antigravit Advantages (Exclusives)
+## What Does NOT Exist in Antigravity (Limitations)
 
-- **AI Image Generation**: Native `generate_image` tool.
-- **Interactive UI Design**: 8 dedicated tools via `mcp_stitch`.
-- **Browser Recording**: `browser_subagent` with WebP video capture.
-- **Advanced Context**: The **SYNAPSE Context Engine** and **KI System**.
-- **Progress Visibility**: Native `task_boundary` and `notify_user` mechanics.
-
----
-
-## Lessons Learned
-
-1. **Hooks are not 1:1 replicable**: Instructional governance is the best path for agent-centric systems.
-2. **Squad Management Adaptation**: The "Broken Migration" was fixed by moving orchestration from core to project-level packs (`squads/squad-creator/`).
-3. **Minds First approach**: Consolidating research specialists (`@research-specialists`) improved high-fidelity mind cloning.
+| Claude Resource            | Antigravity Status | Workaround                             |
+| -------------------------- | ------------------ | -------------------------------------- |
+| Automatic PreToolUse Hooks | ❌ N/A             | Instructional `governance.md`          |
+| `/synapse:save` command    | ❌ N/A             | Manual save to `.synapse/sessions/`    |
+| Checklists of Chiefs       | ⚠️ Not created     | Medium priority for future improvement |

@@ -2,13 +2,30 @@
 
 > **NOTA ARQUITETURAL:** Este arquivo substitui os `PreToolUse Hooks` do Claude Code no ambiente Antigravit.
 > Como o Antigravit não possui sistema de interceptação automática de ferramentas, estas regras devem ser
-> aplicadas **proativamente** pelo agente antes de cada operação crítica.
+> aplicadas **proativamente** pelo agente antes de cada operação crítica (ou direcionadas via AGP).
+
+---
+
+## AIOS Governance Pipeline (AGP)
+
+> **MECANISMO DE EXECUÇÃO:** As regras abaixo são implementadas como tasks ativas.
+> Em vez de verificar manualmente item por item, usar o pipeline de governance:
+>
+> ```text
+> → skill: governance  (.antigravity/skills/governance/SKILL.md)
+> → Task correspondente deve ser executada ANTES da operação
+> ```
+>
+> As seções abaixo servem como **referência das políticas** (source of truth).
+> O AGP é o **mecanismo de execução** dessas políticas. Configurações em `.antigravity/rules/governance-config.md`.
 
 ---
 
 ## Verificações Obrigatórias por Operação
 
 ### 🔴 Antes de ESCREVER ou EDITAR código em paths protegidos
+
+**Task AGP:** `check-architecture-first` → `.antigravity/skills/governance/`
 
 **Gatilho:** Qualquer operação `write_to_file` ou `replace_file_content` em:
 
@@ -40,6 +57,8 @@ package.json   |  package-lock.json  |  tsconfig.json
 
 ### 🔴 Antes de CRIAR arquivo em `squads/*/agents/*.md`
 
+**Task AGP:** `check-mind-clone-dna` → `.antigravity/skills/governance/`
+
 **Gatilho:** Qualquer `write_to_file` criando novo agente em squads
 
 **Checklist obrigatório:**
@@ -65,6 +84,8 @@ Se DNA NÃO existe → **BLOQUEAR. Executar pipeline:**
 ---
 
 ### 🔴 Antes de EXECUTAR SQL via run_command
+
+**Task AGP:** `check-sql-governance` → `.antigravity/skills/governance/`
 
 **Gatilho:** Qualquer `run_command` contendo SQL DDL
 
@@ -96,6 +117,8 @@ pg_dump ...                     # Backup/export
 
 ### 🔴 Antes de GIT PUSH
 
+**Task AGP:** `check-git-push-authority` → `.antigravity/skills/governance/`
+
 **Gatilho:** Qualquer `run_command` com `git push`
 
 **Verificação:**
@@ -118,6 +141,8 @@ Se SIM → Verificar quality gates antes de push:
 
 ### 🟡 Antes de SALVAR documentos (warnings)
 
+**Task AGP:** `check-write-path` → `.antigravity/skills/governance/`
+
 **Verificar paths corretos:**
 
 | Tipo de Documento | Path Correto             |
@@ -133,6 +158,8 @@ Se SIM → Verificar quality gates antes de push:
 ---
 
 ### 🟡 Formato de Slugs — Validação Obrigatória
+
+**Task AGP:** `check-slug-format` → `.antigravity/skills/governance/`
 
 **Regra:** Todos os slugs e IDs DEVEM ser snake_case
 
@@ -164,6 +191,46 @@ Padrão válido: ^[a-z0-9]+(_[a-z0-9]+)*$
 
 ---
 
+### 🟡 Antes de CRIAR ou REMOVER Git Worktrees
+
+**Task AGP:** `check-git-push-authority` → `.antigravity/skills/governance/`
+
+**Gatilho:** Qualquer `run_command` com `git worktree add` ou `git worktree remove`
+
+**Verificação obrigatória:**
+
+- [ ] O agente ativo é `@devops` (Gage)?
+
+Se NÃO → **BLOQUEAR.** Worktrees devem ser gerenciados apenas por @devops:
+
+```
+→ @devops *create-worktree {branch}
+→ @devops *remove-worktree {branch}
+→ @devops *list-worktrees
+```
+
+Se SIM → Seguir protocolo do workflow `auto-worktree.md`:
+
+- Verificar `git status --short` antes de criar
+- Nunca criar worktree com mudanças não commitadas
+- Sempre documentar worktree criado em `.aios/worktrees.json` (se existir)
+
+---
+
+### 🟡 Antes de rodar `mcp_stitch_*` (Design System)
+
+**Gatilho:** Qualquer invocação de `mcp_stitch_generate_screen_from_text`, `mcp_stitch_edit_screens`, ou `mcp_stitch_generate_variants`
+
+**Verificação:**
+
+- [ ] O contexto é de Design System ou UI? (workflows: `design-system-build.md`, `greenfield-ui.md`, `brownfield-ui.md`)
+- [ ] O output será salvo/referenciado em `docs/design-system/` ou `docs/`?
+
+Se SIM → Prosseguir normalmente.
+Se NÃO → Alertar: "Use Stitch MCP apenas no contexto de workflows de UI/Design System."
+
+---
+
 ## Exit Codes de Referência (Claude Code → Antigravit)
 
 > Para referência histórica. No Antigravit, a governança é instrucional, não via exit codes.
@@ -177,6 +244,8 @@ Padrão válido: ^[a-z0-9]+(_[a-z0-9]+)*$
 ---
 
 ## Scripts de Validação Manual
+
+> **Nota:** Para uso integrado, prefira o AGP via `skill governance`.
 
 Os scripts Python originais em `.claude/hooks/` podem ser executados manualmente para validação:
 

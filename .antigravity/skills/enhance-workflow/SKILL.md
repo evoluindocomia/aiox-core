@@ -241,3 +241,15 @@ Revisar epic em outputs/enhance/{slug}/04-epic.md
 | roundtable | 2              | continue_partial     |
 | epic       | 3              | fail_with_partial    |
 | qa         | 2              | deliver_with_warning |
+
+## Workflows Relacionados
+
+Esta skill gera um Epic que pode ser executado pelos seguintes workflows:
+
+| Contexto do Enhancement                  | Workflow Sugerido                                |
+| ---------------------------------------- | ------------------------------------------------ |
+| Projeto novo detectado (greenfield)      | `.antigravity/workflows/greenfield-fullstack.md` |
+| Projeto existente detectado (brownfield) | `.antigravity/workflows/brownfield-fullstack.md` |
+| Enhancement focado em UI                 | `.antigravity/workflows/brownfield-ui.md`        |
+| Enhancement com spec complexa            | `.antigravity/workflows/spec-pipeline.md`        |
+| Execução do épico gerado                 | `.antigravity/workflows/epic-orchestration.md`   |

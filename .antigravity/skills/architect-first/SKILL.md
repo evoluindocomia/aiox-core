@@ -173,3 +173,16 @@ Nova Task/Feature Request
 5. Verificar coupling
 6. Documentar decisão
 7. Agora implementar
+
+## Workflows Associados
+
+A filosofia Architect-First deve ser aplicada especialmente ao iniciar estes workflows:
+
+| Workflow                  | Fase Crítica para Architect-First          |
+| ------------------------- | ------------------------------------------ |
+| `greenfield-fullstack.md` | Fase 1 — Antes de escrever qualquer código |
+| `greenfield-service.md`   | Step 1.2 — Arquitetura de Serviço          |
+| `brownfield-fullstack.md` | Step 3 — Validação arquitetural            |
+| `brownfield-service.md`   | Step 2 — Spec de Mudança                   |
+| `design-system-build.md`  | Step 4 — Antes de implementar atoms        |
+| `spec-pipeline.md`        | Fase 3 — Plan (Fase 6 do pipeline)         |

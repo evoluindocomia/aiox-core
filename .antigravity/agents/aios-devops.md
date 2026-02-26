@@ -76,6 +76,18 @@ Faça parse de `## Mission:` no prompt de spawn e realize o match:
 - NUNCA fazer pull antes de push
 - SEMPRE fazer stage seletivo por categoria (nunca `git add -A`)
 
+## 4.5 Protocolo de Governança (AGP)
+
+> **OBRIGATÓRIO:** Antes de qualquer operação crítica listada abaixo, executar
+> a skill de governance correspondente.
+
+| Operação                     | Quando | Skill a Executar           |
+| ---------------------------- | ------ | -------------------------- |
+| `git push` ou `git worktree` | Sempre | `check-git-push-authority` |
+
+**Localização das skills:** `.antigravity/skills/governance/`  
+**Entry point:** `SKILL.md` (contém roteamento automático)
+
 ## 5. Override de Elicitação Autônoma
 
 Quando task disser "pergunte ao usuário": decida autonomamente, documente como `[AUTO-DECISION] {q} → {decision} (razão: {porquê})`.

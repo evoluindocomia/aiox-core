@@ -20,7 +20,9 @@ Before using AIOS, ensure you have:
 - **Node.js** version 18.0.0 or higher
 - **npm** version 8.0.0 or higher
 - **Git** for version control
-- An AI provider API key (Anthropic, OpenAI, or compatible)
+- An AI provider API key:
+  - **Claude Code / Cursor:** `ANTHROPIC_API_KEY` (Anthropic) — required
+  - **AntiGravity (Gemini Code Assist):** Google account login — **no API key needed**
 
 ### Installation
 
@@ -118,40 +120,40 @@ When an agent is active:
 
 Agent commands use visibility levels to control when they appear:
 
-| Level | Name    | Description                                      |
-|-------|---------|--------------------------------------------------|
-| `key` | Key     | Critical commands shown in minimal greeting      |
-| `quick` | Quick | Essential commands shown in quick reference    |
-| `full` | Full    | All commands shown in `*help` output            |
+| Level   | Name  | Description                                 |
+| ------- | ----- | ------------------------------------------- |
+| `key`   | Key   | Critical commands shown in minimal greeting |
+| `quick` | Quick | Essential commands shown in quick reference |
+| `full`  | Full  | All commands shown in `*help` output        |
 
 **How visibility works:**
 
 ```yaml
 commands:
   - name: help
-    visibility: [full, quick, key]  # Always shown
-    description: "Show available commands"
+    visibility: [full, quick, key] # Always shown
+    description: 'Show available commands'
 
   - name: create-prd
-    visibility: [full, quick]       # Shown in quick reference
-    description: "Create product requirements"
+    visibility: [full, quick] # Shown in quick reference
+    description: 'Create product requirements'
 
   - name: session-info
-    visibility: [full]              # Only in full help
-    description: "Show session details"
+    visibility: [full] # Only in full help
+    description: 'Show session details'
 ```
 
 **Command Authority:**
 
 Each command has exactly one authoritative agent owner. When multiple agents might handle similar tasks:
 
-| Command        | Owner      | Others Should...                |
-|----------------|------------|---------------------------------|
-| `*create-prd`  | @pm        | Delegate to @pm                 |
-| `*create-epic` | @pm        | Delegate to @pm                 |
-| `*draft`       | @sm        | Use @sm for story creation      |
-| `*develop`     | @dev       | Use @dev for implementation     |
-| `*review`      | @qa        | Use @qa for code review         |
+| Command        | Owner | Others Should...            |
+| -------------- | ----- | --------------------------- |
+| `*create-prd`  | @pm   | Delegate to @pm             |
+| `*create-epic` | @pm   | Delegate to @pm             |
+| `*draft`       | @sm   | Use @sm for story creation  |
+| `*develop`     | @dev  | Use @dev for implementation |
+| `*review`      | @qa   | Use @qa for code review     |
 
 See the [Command Authority Matrix](../architecture/command-authority-matrix.md) for the complete mapping.
 
@@ -319,7 +321,7 @@ npm run build        # Build project
 The primary configuration is in `.aios-core/core/config/`:
 
 ```yaml
-# aios.config.yaml
+# aios.config.yaml — example for Claude Code
 version: 2.1.0
 projectName: my-project
 
@@ -337,12 +339,26 @@ ai:
 environment: development
 ```
 
+```yaml
+# aios.config.yaml — example for AntiGravity (Gemini)
+ai:
+  provider: gemini
+  model: gemini-2.0-flash
+```
+
 ### Environment Variables
 
 ```bash
-# AI Provider Configuration
+# For Claude Code / Cursor (Anthropic) — required
 ANTHROPIC_API_KEY=your-anthropic-api-key
-# or
+
+# For AntiGravity (Gemini Code Assist)
+# GEMINI_API_KEY is NOT required for standard IDE usage!
+# Authentication is handled by your Google account via the extension.
+# Only needed for programmatic API calls:
+# GEMINI_API_KEY=your-gemini-api-key   # optional
+
+# Optional: OpenAI fallback
 OPENAI_API_KEY=your-openai-api-key
 
 # Framework Settings
@@ -352,16 +368,65 @@ AIOS_DEBUG=false
 
 ### IDE Integration
 
-AIOS supports multiple IDEs. Configuration is synchronized across:
+AIOS supports multiple IDEs. Configuration is automatically synchronized across:
 
-- Claude Code (`.claude/`)
-- Cursor (`.cursor/`)
-- VS Code (`.vscode/`)
+| IDE                              | Directory       | AI Provider |
+| -------------------------------- | --------------- | ----------- |
+| Claude Code                      | `.claude/`      | `anthropic` |
+| Cursor                           | `.cursor/`      | any         |
+| AntiGravity (Gemini Code Assist) | `.antigravity/` | `gemini`    |
+| GitHub Copilot                   | `.github/`      | any         |
+| Codex                            | `.codex/`       | any         |
 
 ```bash
-# Sync agents to your IDE
+# Sync agents to all IDEs (includes AntiGravity by default)
 npm run sync:ide
+
+# Sync to AntiGravity only
+npm run sync:ide:antigravity
 ```
+
+---
+
+## Using with AntiGravity
+
+> **AntiGravity** is Antigravit's native environment for use with **Gemini Code Assist** (Google). It offers functional parity with Claude Code plus exclusive tools.
+
+### Why AntiGravity?
+
+| Feature         | Claude Code         | AntiGravity                                      |
+| --------------- | ------------------- | ------------------------------------------------ |
+| IDE             | Claude Code         | Gemini Code Assist                               |
+| Provider        | `anthropic`         | `gemini`                                         |
+| API Key         | `ANTHROPIC_API_KEY` | `GEMINI_API_KEY`                                 |
+| Config dir      | `.claude/`          | `.antigravity/`                                  |
+| Exclusive tools | —                   | Stitch MCP, `generate_image`, `browser_subagent` |
+| Agents          | All (11)            | All (11)                                         |
+
+### Prerequisites
+
+1. **Gemini Code Assist IDE** — install the VS Code extension and sign in with your Google account
+2. **Node.js 18+** and **Git** (same as for Claude Code)
+3. **No API key needed** — Gemini Code Assist authenticates via your Google account
+
+### Quick Activation
+
+```bash
+# New project with AntiGravity
+npx aios-core init my-project
+cd my-project
+
+# Configure .env
+echo "GEMINI_API_KEY=your-key" >> .env
+
+# Verify .antigravity/ is present
+ls .antigravity/
+```
+
+### AntiGravity Documentation
+
+- [AntiGravity Practical Guide](./antigravity-guide.md) — complete step-by-step guide
+- [AntiGravity Getting Started](../../en/antigravity/getting-started.md) — technical reference
 
 ---
 
@@ -480,6 +545,7 @@ aios squads search {keyword}
 - [Agent Reference Guide](../agent-reference-guide.md)
 - [Architecture Overview](../architecture/ARCHITECTURE-INDEX.md)
 - [Squads Guide](./squads-guide.md)
+- [**AntiGravity Practical Guide**](./antigravity-guide.md)
 - [Troubleshooting](../troubleshooting.md)
 
 ---
