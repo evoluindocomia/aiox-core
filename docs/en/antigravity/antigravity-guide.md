@@ -85,7 +85,37 @@ To trigger AIOS magic, your starting point is always to call upon initial orches
 
 ---
 
-## 5. Diving Deeper
+## 5. Local Testing and Validation of the Installer
+
+If you are contributing to AIOS development or need to validate the installer locally without publishing it to NPM, you can use two main strategies:
+
+### Option 1: Packaging Simulation via NPM Pack (Recommended)
+
+This option exactly simulates the end-user behavior unpacking the package via `npx`.
+
+1. In the original project root (where the main `aios-core` `package.json` is located), run:
+   ```bash
+   npm pack
+   ```
+2. A `.tgz` file will be generated (e.g., `aios-core-4.4.6.tgz`).
+3. In a separate test environment folder, execute the command pointing to the local file:
+   ```bash
+   npx "/absolute/path/to/aios-core-4.4.6.tgz" init my-test-project
+   ```
+
+### Option 2: Direct Node Execution (For Debugging)
+
+This option is ideal for inspecting the code line by line using breakpoints in your IDE (e.g., VSCode).
+
+1. Create an isolated test folder.
+2. From that folder's terminal (or via your IDE's `launch.json`), execute the main Javascript file directly via Node:
+   ```bash
+   node "/absolute/path/to/aios-core/bin/aios.js" init my-test-project
+   ```
+
+---
+
+## 6. Diving Deeper
 
 Once you finalize your first task app, you're absolutely ready to explore:
 

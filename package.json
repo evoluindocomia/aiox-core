@@ -26,6 +26,7 @@
     ".antigravity/skills/",
     ".antigravity/workflows/",
     ".antigravity/templates/",
+    "squads/",
     "pro/license/",
     "README.md",
     "LICENSE"
