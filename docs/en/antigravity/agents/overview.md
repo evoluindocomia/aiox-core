@@ -29,6 +29,29 @@ High-fidelity clones of real-world experts, created via the DNA Mental™ proces
 - **Members:** `brad-frost`, `dan-mall`, and other domain-specific clones.
 - **Location:** `.antigravity/agents/`
 
+### 4. Special Agents
+
+Agents with unique cross-domain capabilities.
+
+- **Examples:** `design-system`, `ui-builder`, `db-sage`, `tools-orchestrator`.
+- **Location:** `.antigravity/agents/`
+
+---
+
+## Complete Agent Index
+
+**Core AIOS:**
+[aios-dev](./core/aios-dev.md) • [aios-qa](./core/aios-qa.md) • [aios-architect](./core/aios-architect.md) • [aios-pm](./core/aios-pm.md) • [aios-po](./core/aios-po.md) • [aios-sm](./core/aios-sm.md) • [aios-analyst](./core/aios-analyst.md) • [aios-data-engineer](./core/aios-data-engineer.md) • [aios-ux](./core/aios-ux.md) • [aios-devops](./core/aios-devops.md) • [squad-chief](./core/squad-chief.md)
+
+**Chiefs:**
+[copy-chief](./chiefs/copy-chief.md) • [cyber-chief](./chiefs/cyber-chief.md) • [data-chief](./chiefs/data-chief.md) • [design-chief](./chiefs/design-chief.md) • [legal-chief](./chiefs/legal-chief.md) • [story-chief](./chiefs/story-chief.md) • [traffic-masters-chief](./chiefs/traffic-masters-chief.md) • [squad-chief](./chiefs/squad-chief.md)
+
+**Mind Clones:**
+[brad-frost](./minds/brad-frost.md) • [dan-mall](./minds/dan-mall.md) • [dave-malouf](./minds/dave-malouf.md) • [oalanicolas](./minds/oalanicolas.md) • [pedro-valerio](./minds/pedro-valerio.md)
+
+**Specials:**
+[design-system](./specials/design-system.md) • [ui-builder](./specials/ui-builder.md) • [db-sage](./specials/db-sage.md) • [nano-banana-generator](./specials/nano-banana-generator.md) • [sop-extractor](./specials/sop-extractor.md) • [tools-orchestrator](./specials/tools-orchestrator.md)
+
 ---
 
 ## Activation and Interaction

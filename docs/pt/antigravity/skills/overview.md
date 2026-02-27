@@ -1,6 +1,6 @@
 # Skills — Sistema de Skills
 
-As **6 skills** em `.antigravity/skills/` são capacidades especializadas que qualquer agente pode invocar. Cada skill reside em uma subpasta com um arquivo `SKILL.md` obrigatório.
+As **7 skills** em `.antigravity/skills/` são capacidades especializadas que qualquer agente pode invocar. Cada skill reside em uma subpasta com um arquivo `SKILL.md` obrigatório.
 
 ---
 
@@ -29,14 +29,15 @@ description: 'Quando usar esta skill e por quê.'
 
 ## Catálogo de Skills
 
-| Skill              | Origem   | Descrição                                       |
-| ------------------ | -------- | ----------------------------------------------- |
-| `clone-mind`       | Migrado  | Extração de DNA e clonagem de especialistas     |
-| `architect-first`  | Migrado  | Verificação arquitetural antes de implementar   |
-| `enhance-workflow` | Migrado  | Melhorar workflows existentes                   |
-| `checklist-runner` | Migrado  | Executar checklists de qualidade estruturados   |
-| `squad`            | Migrado  | Criação e gestão de squads                      |
-| `synapse`          | **NOVO** | Integração com o engine de contexto `.synapse/` |
+| Skill              | Origem   | Descrição                                        |
+| ------------------ | -------- | ------------------------------------------------ |
+| `clone-mind`       | Migrado  | Extração de DNA e clonagem de especialistas      |
+| `architect-first`  | Migrado  | Verificação arquitetural antes de implementar    |
+| `enhance-workflow` | Migrado  | Melhorar workflows existentes                    |
+| `checklist-runner` | Migrado  | Executar checklists de qualidade estruturados    |
+| `governance`       | **NOVO** | AIOS Governance Pipeline: bloqueia ops sem rules |
+| `squad`            | Migrado  | Criação e gestão de squads                       |
+| `synapse`          | **NOVO** | Integração com o engine de contexto `.synapse/`  |
 
 ---
 

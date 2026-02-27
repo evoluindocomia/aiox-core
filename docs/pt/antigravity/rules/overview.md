@@ -14,16 +14,17 @@ Rules são arquivos `.md` que o Antigravit injeta no contexto dos agentes. Difer
 
 ## Tabela de Rules
 
-| Arquivo                   | Tipo     | Descrição                                                   |
-| ------------------------- | -------- | ----------------------------------------------------------- |
-| `agent-authority.md`      | Migrado  | Hierarquia de autoridade, Framework/Project Boundary L1-L4  |
-| `agent-handoff.md`        | Migrado  | Protocolo de handoff entre agentes, integrado com KI System |
-| `agent-memory-imports.md` | Migrado  | Quando e como carregar MEMORY.md, KI summaries              |
-| `governance.md`           | **NOVO** | Substitui 6 hooks Python do Claude — checklist pré-operação |
-| `ids-principles.md`       | Migrado  | IDS: REUSE > ADAPT > CREATE                                 |
-| `story-lifecycle.md`      | Migrado  | Ciclo de vida das stories                                   |
-| `tool-usage.md`           | **NOVO** | Regras de uso de ferramentas + MCP                          |
-| `workflow-execution.md`   | Migrado  | 14 workflows completos + guia de seleção                    |
+| Arquivo                   | Tipo     | Descrição                                                        |
+| ------------------------- | -------- | ---------------------------------------------------------------- |
+| `agent-authority.md`      | Migrado  | Hierarquia de autoridade, Framework/Project Boundary L1-L4       |
+| `agent-handoff.md`        | Migrado  | Protocolo de handoff entre agentes, integrado com KI System      |
+| `agent-memory-imports.md` | Migrado  | Quando e como carregar MEMORY.md, KI summaries                   |
+| `governance-config.md`    | **NOVO** | Arquivo de configuração que define os limites e controles do AGP |
+| `governance.md`           | **NOVO** | Substitui 6 hooks Python do Claude — checklist pré-operação      |
+| `ids-principles.md`       | Migrado  | IDS: REUSE > ADAPT > CREATE                                      |
+| `story-lifecycle.md`      | Migrado  | Ciclo de vida das stories                                        |
+| `tool-usage.md`           | **NOVO** | Regras de uso de ferramentas + MCP                               |
+| `workflow-execution.md`   | Migrado  | 14 workflows completos + guia de seleção                         |
 
 ---
 

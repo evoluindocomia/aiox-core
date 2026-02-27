@@ -79,31 +79,42 @@
 
 Installation, workflow selection, agent activation, and the full development cycle.
 
-### [2. Agents System](./agents/overview.md)
+### [2. Definitive Onboarding Guide](./antigravity-guide.md)
+
+Step-by-step guide for setup, initialization workarounds, and creating your first project.
+
+### [3. Agents System](./agents/overview.md)
 
 All 28+ agents — Core AIOS roles, Chiefs, Mind Clones, and Special agents.
 
-### [3. Rules & Governance](./rules/overview.md)
+### [4. Rules & Governance](./rules/overview.md)
 
 How Antigravity ensures quality and security: AGP (AIOS Governance Pipeline), Agent Authority, Handoff rules, etc.
 
-### [4. Skills & Capabilities](./skills/overview.md)
+### [5. Skills & Capabilities](./skills/overview.md)
 
 Modular powers: `clone-mind`, `architect-first`, `enhance-workflow`, `synapse`.
 
-### [5. Squads & Scalability](./squads/overview.md)
+### [6. Squads & Scalability](./squads/overview.md)
 
 The Packs model and the `squad-creator` orchestrator.
 
-### [6. Native Workflows](./workflows/overview.md)
+- [Creating Squads](./squads/squad-creator-process.md)
+- [Managing Squads](./squads/managing-squads.md)
+
+### [7. IDE Usability](./guides/ide-usability.md)
+
+How to use Antigravity as your primary IDE, the Daily Flow, and the [Context Engine (SYNAPSE)](./guides/context-engine.md).
+
+### [8. Native Workflows](./workflows/overview.md)
 
 All 14 workflows — when to use each and how they chain together.
 
-### [7. Tool Mapping](./tools/tool-mapping.md)
+### [9. Tool Mapping](./tools/tool-mapping.md)
 
 Full translation from Claude Code tools to Antigravity native tools.
 
-### [8. Migration Guide](./migration/from-claude.md)
+### [10. Migration Guide](./migration/from-claude.md)
 
 Lessons learned and technical mapping for teams transitioning from Claude.
 

@@ -4,7 +4,7 @@ Technical guide on what was migrated, what changed, and what is exclusive to Ant
 
 > **Migration Date:** 2026-02-25  
 > **Status:** ✅ COMPLETED (Parts 1-5)  
-> **Full Walkthrough:** `.synapse/antigravit/walkthrough-migracao-claude.md`
+> **Full Walkthrough:** `.synapse/antigravity/walkthrough-migracao-claude.md`
 
 ---
 

@@ -4,7 +4,7 @@ Guia técnico sobre o que foi migrado, o que mudou e o que é exclusivo do Antig
 
 > **Migração realizada em:** 2026-02-25  
 > **Status:** ✅ COMPLETO (Partes 1-5)  
-> **Walkthrough completo:** `.synapse/antigravit/walkthrough-migracao-claude.md`
+> **Walkthrough completo:** `.synapse/antigravity/walkthrough-migracao-claude.md`
 
 ---
 
@@ -177,7 +177,7 @@ O `.claude/` tinha 12 skills. O Antigravit consolidou para 6, mais a adição da
 
 - [ ] Design system UI docs usando Stitch MCP com `@nano-banana-generator`
 - [ ] Expandir agent-memory dos Mind Clones com histórico de clonagens
-- [ ] KI de Governança de Workflows (adiado — ver decisão em `.synapse/antigravit/revWorkFlows/task.md`)
+- [ ] KI de Governança de Workflows (adiado — ver decisão em `.synapse/antigravity/revWorkFlows/task.md`)
 
 ---
 
@@ -195,9 +195,9 @@ O `.claude/` tinha 12 skills. O Antigravit consolidou para 6, mais a adição da
 
 ## Referências
 
-| Documento                        | Path                                                 |
-| -------------------------------- | ---------------------------------------------------- |
-| Walkthrough completo da migração | `.synapse/antigravit/walkthrough-migracao-claude.md` |
-| Documento master Antigravit      | `.antigravity/ANTIGRAVITY.md`                        |
-| Governance (substitui hooks)     | `.antigravity/rules/governance.md`                   |
-| Tool mapping (esta doc)          | `docs/pt/antigravity/tools/tool-mapping.md`          |
+| Documento                        | Path                                                  |
+| -------------------------------- | ----------------------------------------------------- |
+| Walkthrough completo da migração | `.synapse/antigravity/walkthrough-migracao-claude.md` |
+| Documento master Antigravit      | `.antigravity/ANTIGRAVITY.md`                         |
+| Governance (substitui hooks)     | `.antigravity/rules/governance.md`                    |
+| Tool mapping (esta doc)          | `docs/pt/antigravity/tools/tool-mapping.md`           |

@@ -1,0 +1,550 @@
+# PRD: Migração Claude (.claude) → Antigravit (.antigravity)
+
+## Objetivo
+
+Transformar o ambiente **Antigravit** (`.antigravity`) na ferramenta principal de operação do **AIOS**, replicando as funcionalidades hoje priorizadas para o Claude Code (`.claude`). Este PRD mapeia cada funcionalidade, avalia sua replicabilidade e define o passo a passo para a migração.
+
+---
+
+## Inventário Completo de Funcionalidades do `.claude`
+
+### Camada 1 — Configuração Principal
+
+| Arquivo | Função | Tamanho |
+|---------|--------|---------|
+| [CLAUDE.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/CLAUDE.md) | Documento master: constitution, agentes, CLI First, estrutura | 379 linhas |
+| [settings.json](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/settings.json) | Configurações básicas (deny/allow rules) | mínimo |
+| [settings.local.json](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/settings.local.json) | Permissões de Bash + configuração de hooks | 16 linhas |
+
+### Camada 2 — Rules (Regras de Operação)
+
+| Arquivo | Função | Tipo |
+|---------|--------|------|
+| [agent-authority.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/agent-authority.md) | Matriz de delegação: quem pode fazer o quê | Comportamental |
+| [agent-handoff.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/agent-handoff.md) | Protocolo de troca de agentes com compactação ~379 tokens | Comportamental |
+| [agent-memory-imports.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/agent-memory-imports.md) | Importação de memória de agentes | Comportamental |
+| [coderabbit-integration.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/coderabbit-integration.md) | Regras de auto-healing com CodeRabbit | Ferramental |
+| [ids-principles.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/ids-principles.md) | Princípios de IDS | Arquitetural |
+| [mcp-usage.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/mcp-usage.md) | Governança de MCP servers (3-Tier Tool Mesh) | Ferramental |
+| [story-lifecycle.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/story-lifecycle.md) | Ciclo de vida de stories (Draft→Ready→InProgress→InReview→Done) | Processual |
+| [tool-examples.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/tool-examples.md) | Exemplos de ferramentas (top-10) para seleção +18pp precisão | Comportamental |
+| [tool-response-filtering.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/tool-response-filtering.md) | Filtragem de respostas de ferramentas | Comportamental |
+| [workflow-execution.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/rules/workflow-execution.md) | 4 workflows primários: SDC, QA Loop, Spec Pipeline, Brownfield | Processual |
+
+### Camada 3 — Hooks (Governança Automática)
+
+| Hook | Trigger | Comportamento | Função |
+|------|---------|---------------|--------|
+| [read-protection.py](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/read-protection.py) | `Read` | BLOQUEIA (exit 2) | Impede leitura parcial de arquivos protegidos |
+| [enforce-architecture-first.py](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/enforce-architecture-first.py) | `Write\|Edit` | BLOQUEIA (exit 2) | Exige documentação antes de criar código |
+| [write-path-validation.py](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/write-path-validation.py) | `Write\|Edit` | AVISA (exit 0 + stderr) | Valida paths de documentos |
+| [sql-governance.py](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/sql-governance.py) | `Bash` | BLOQUEIA (exit 2) | Intercepta SQL perigoso |
+| [slug-validation.py](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/slug-validation.py) | `Bash` | BLOQUEIA (exit 2) | Valida formato snake_case |
+| [mind-clone-governance.py](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/mind-clone-governance.py) | `Write\|Edit` | BLOQUEIA (exit 2) | Impede mind-clone sem DNA |
+| [precompact-session-digest.cjs](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/precompact-session-digest.cjs) | Session compact | Digest | Resumo antes de compactação |
+| [synapse-engine.cjs](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/synapse-engine.cjs) | Synapse | Engine | Motor do Synapse |
+| [install-hooks.sh](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/install-hooks.sh) | Setup | Install | Instalação dos hooks |
+| [pre-commit-version-check.sh](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/pre-commit-version-check.sh) | Git pre-commit | Check | Verifica versão antes de commit |
+| [enforce-git-push-authority.sh](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/hooks/enforce-git-push-authority.sh) | Git push | Bloqueia | Somente @devops pode fazer push |
+
+### Camada 4 — Agents (29 agentes)
+
+**Core AIOS (10 agentes):**
+| Agente | Persona | Escopo |
+|--------|---------|--------|
+| [aios-dev.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-dev.md) | Dex | Implementação |
+| [aios-qa.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-qa.md) | Quinn | Testes e qualidade |
+| [aios-architect.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-architect.md) | Aria | Arquitetura |
+| [aios-pm.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-pm.md) | Morgan | Product Management |
+| [aios-po.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-po.md) | Pax | Product Owner |
+| [aios-sm.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-sm.md) | River | Scrum Master |
+| [aios-analyst.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-analyst.md) | Alex | Pesquisa e análise |
+| [aios-data-engineer.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-data-engineer.md) | Dara | Database |
+| [aios-ux.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-ux.md) | Uma | UX/UI Design |
+| [aios-devops.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/aios-devops.md) | Gage | CI/CD e git push |
+
+**Mind Clones (pessoas reais):**
+- [oalanicolas.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/oalanicolas.md), [pedro-valerio.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/pedro-valerio.md), [brad-frost.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/brad-frost.md), [dan-mall.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/dan-mall.md), [dave-malouf.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/dave-malouf.md)
+
+**Chiefs (Orchestrators):**
+- [squad-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/squad-chief.md) (70KB, 1554 linhas — orquestrador principal)
+- [copy-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/copy-chief.md), [cyber-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/cyber-chief.md), [data-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/data-chief.md), [design-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/design-chief.md)
+- [legal-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/legal-chief.md), [story-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/story-chief.md), [tools-orchestrator.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/tools-orchestrator.md), [traffic-masters-chief.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/traffic-masters-chief.md)
+- [design-system.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/design-system.md), [db-sage.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/db-sage.md)
+
+**Utilitários:**
+- [squad.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/squad.md) (skill como agente), [sop-extractor.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/sop-extractor.md), [nano-banana-generator.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/nano-banana-generator.md)
+
+### Camada 5 — Skills (12 skills/subagentes)
+
+| Skill | Função | Subagentes |
+|-------|--------|------------|
+| [squad.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/agents/squad.md) | Orquestrador de criação de squads com DNA | oalanicolas, pedro-valerio, sop-extractor |
+| [clone-mind.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/skills/clone-mind.md) | Pipeline completo de clonagem de mente | — |
+| [enhance-workflow.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/skills/enhance-workflow.md) | Melhoria de workflows | — |
+| [ralph.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/skills/ralph.md) | Agente especializado Ralph | — |
+| [course-generation-workflow.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/skills/course-generation-workflow.md) | Geração de cursos | — |
+| `architect-first/` | Arquitetura First skill | — |
+| `checklist-runner/` | Execução de checklists | — |
+| `coderabbit-review/` | Review com CodeRabbit | — |
+| `mcp-builder/` | Construtor de MCPs | — |
+| `skill-creator/` | Criador de skills | — |
+| `synapse/` | Engine Synapse | — |
+| `tech-search/` | Pesquisa técnica | — |
+
+### Camada 6 — Commands (Slash Commands Claude)
+
+| Namespace | Arquivos | Função |
+|-----------|----------|--------|
+| [greet.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/commands/greet.md) | 1 | Greeting contextual via GreetingBuilder.js |
+| `AIOS/agents/` | Múltiplos | Ativação de agentes via `/AIOS:agents:name` |
+| `AIOS/scripts/` | Scripts | Scripts de suporte |
+| `AIOS/stories/` | Templates | Templates de stories |
+| `cohort-squad/agents/` | Agentes de cohort | Squad cohorte |
+| `design-system/` | Design system | Commands do design system |
+| `synapse/manager.md + tasks/ + templates/ + utils/` | Sistema Synapse | Gestão de contexto |
+
+### Camada 7 — Templates (18 templates)
+
+| Template | Função |
+|----------|--------|
+| [agent-template.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/agent-template.yaml) | Template base para agentes |
+| [architecture-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/architecture-tmpl.yaml) | Documentação de arquitetura |
+| [brownfield-architecture-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/brownfield-architecture-tmpl.yaml) | Arquitetura brownfield |
+| [brownfield-prd-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/brownfield-prd-tmpl.yaml) | PRD brownfield |
+| [prd-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/prd-tmpl.yaml) | Template de PRD |
+| [story-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/story-tmpl.yaml) | Template de story |
+| [workflow-template.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/workflow-template.yaml) | Template de workflow |
+| [front-end-architecture-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/front-end-architecture-tmpl.yaml) | Arquitetura frontend |
+| [fullstack-architecture-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/fullstack-architecture-tmpl.yaml) | Arquitetura fullstack |
+| [front-end-spec-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/front-end-spec-tmpl.yaml) | Spec frontend |
+| [market-research-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/market-research-tmpl.yaml) | Pesquisa de mercado |
+| [competitor-analysis-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/competitor-analysis-tmpl.yaml) | Análise competitiva |
+| [qa-gate-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/qa-gate-tmpl.yaml) | Gate de QA |
+| [brainstorming-output-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/brainstorming-output-tmpl.yaml) | Saída de brainstorming |
+| [project-brief-tmpl.yaml](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/project-brief-tmpl.yaml) | Brief de projeto |
+| [database-schema-request-full.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/database-schema-request-full.md) | Schema DB (completo) |
+| [database-schema-request-lite.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/database-schema-request-lite.md) | Schema DB (lite) |
+| [task-template.md](file:///f:/Projetos%20C%C3%B3digos/AIOS%20Agentes/modulo-antigravity-001/.claude/templates/task-template.md) | Template de task |
+
+### Camada 8 — Agent Memory
+
+Memória persistente por agente em `.claude/agent-memory/{agent-id}/MEMORY.md`:
+
+| Agente | Path |
+|--------|------|
+| `aios-architect` | `.claude/agent-memory/aios-architect/` |
+| `aios-dev` | `.claude/agent-memory/aios-dev/` |
+| `aios-po` | `.claude/agent-memory/aios-po/` |
+| `aios-qa` | `.claude/agent-memory/aios-qa/` |
+| `oalanicolas` | `.claude/agent-memory/oalanicolas/` |
+| `pedro-valerio` | `.claude/agent-memory/pedro-valerio/` |
+| `sop-extractor` | `.claude/agent-memory/sop-extractor/` |
+| `squad` | `.claude/agent-memory/squad/` |
+
+---
+
+## Análise de Replicabilidade
+
+### Classificação por Status
+
+| Status | Significado |
+|--------|-------------|
+| ✅ **REPLICÁVEL** | Pode ser replicado nativamente no Antigravit |
+| ⚡ **PARCIAL** | Replicável com adaptações ou workarounds |
+| ❌ **IMPOSSÍVEL** | Funcionalidade exclusiva do Claude Code |
+
+---
+
+### Análise Detalhada por Funcionalidade
+
+#### 1. Configuração Principal (CLAUDE.md / ANTIGRAVITY.md)
+**Status: ✅ REPLICÁVEL**
+
+O Antigravit usa um arquivo raiz equivalente. O Claude Code lê `CLAUDE.md` automaticamente; o Antigravit lê seu próprio documento de configuração (equivalente ao `GEMINI.md` ou `ANTIGRAVITY.md`).
+
+**Passo a Passo:**
+1. Criar `.antigravity/ANTIGRAVITY.md` com a mesma estrutura
+2. Adaptar referências de `/AIOS:agents:name` → `@agent-name` (sintaxe Antigravit)
+3. Adaptar seção de "Uso de Ferramentas" para as ferramentas nativas do Antigravit
+4. Manter todas as seções: Constitution, Agentes, CLI First, Padrões de Código
+
+---
+
+#### 2. Rules (Regras de Operação)
+**Status: ✅ REPLICÁVEL**
+
+O Antigravit suporta arquivos de rules com frontmatter `paths:` para carregamento condicional.
+
+**Passo a Passo:**
+1. Criar `.antigravity/rules/` (já existe, mas vazia)
+2. Migrar todos os 10 arquivos de `.claude/rules/` para `.antigravity/rules/`
+3. Adaptar referências ao Claude Code (ex: `/compact` → equivalente Antigravit)
+4. Adaptar referências de ferramentas (ex: `Read` tool → `view_file` tool)
+5. Ajustar `agent-handoff.md`: O Antigravit tem seu próprio sistema de contexto (KI + brain/)
+
+**Adaptações necessárias em cada rule:**
+- `agent-authority.md`: Manter lógica, adaptar sintaxe de invocação de agentes
+- `agent-handoff.md`: Adaptar para sistema de brain/ e conversation logs do Antigravit
+- `mcp-usage.md`: Adaptar para MCP servers disponíveis no Antigravit (stitch, etc.)
+- `workflow-execution.md`: Adaptar referências de tasks do .aios-core
+- `story-lifecycle.md`: Manter integralmente (process-agnostic)
+
+---
+
+#### 3. Hooks — Governança Automática
+**Status: ❌ IMPOSSÍVEL (sistema nativo) + ⚡ PARCIAL (workarounds)**
+
+> [!CAUTION]
+> Os hooks do Claude Code são um sistema **exclusivo** do Claude Code. Eles interceptam tool calls (Read/Write/Edit/Bash) em tempo real via stdin/stdout JSON com exit codes. O Antigravit **não possui** este mecanismo nativo de hook.
+
+**O que NÃO pode ser replicado diretamente:**
+- `PreToolUse` hooks que bloqueiam operações antes de executarem
+- Sistema de exit codes (0/2) para allow/block
+- Intercepção automática de Write/Edit/Bash/Read
+
+**Workarounds disponíveis:**
+
+| Hook Original | Workaround Antigravit |
+|--------------|----------------------|
+| `read-protection.py` | Regra em ANTIGRAVITY.md: "NUNCA leia parcialmente arquivos protegidos" |
+| `enforce-architecture-first.py` | Regra em rules/: "Verifique documentação antes de criar código" |
+| `write-path-validation.py` | Regra em rules/: "Valide paths antes de salvar documentos" |
+| `sql-governance.py` | Regra em rules/: "Use apenas Supabase CLI para migrations" |
+| `slug-validation.py` | Regra em rules/: "Slugs DEVEM ser snake_case" |
+| `mind-clone-governance.py` | Regra em skills/squad: "Verifique DNA antes de criar mind-clone" |
+| `enforce-git-push-authority.sh` | Regra em agent-authority: "Apenas @devops faz git push" |
+| `pre-commit-version-check.sh` | Git hook em `.husky/` (já existente no projeto) |
+
+**Passo a Passo para Workarounds:**
+1. Criar `.antigravity/rules/governance.md` com todas as regras de governança como instruções explícitas
+2. Referenciar scripts Python originais como ferramentas de validação manual (o agente pode executá-los via `run_command`)
+3. Adicionar seção "Auto-Validação" no ANTIGRAVITY.md listando checks obrigatórios antes de cada operação crítica
+4. Manter hooks do Husky (`.husky/`) para validações no git
+
+---
+
+#### 4. Agents (29 agentes)
+**Status: ✅ REPLICÁVEL**
+
+O Antigravit suporta plenamente arquivos de agentes. A estrutura de agentes é tool-agnostic (Markdown + YAML).
+
+**Passo a Passo:**
+1. Criar `.antigravity/agents/` 
+2. Copiar todos os 29 arquivos de `.claude/agents/` para `.antigravity/agents/`
+3. **Adaptar referências específicas do Claude Code:**
+   - Substituir `bash node squads/squad-creator/scripts/generate-squad-greeting.js` → instruções inline de greeting
+   - Adaptar referências `/AIOS:agents:name` → sintaxe nativa (Antigravit usa `@agent-name`)
+   - Remover referências ao comando `/greet` (Claude Code specific)
+4. Adaptar `activation-instructions` de todos os agentes:
+   - STEP 3 do Claude Code executa script JS de greeting → no Antigravit, incluir greeting diretamente
+5. Manter estrutura YAML de persona, commands, dependencies intacta
+6. `squad-chief.md` (70KB) é o mais complexo — prioridade alta por ser o orquestrador principal
+
+---
+
+#### 5. Skills
+**Status: ✅ REPLICÁVEL (nativamente suportado)**
+
+O Antigravit possui sistema de Skills nativo (`.antigravity/skills/` ou pasta de skills no projeto). O Antigravit já lê arquivos SKILL.md.
+
+**Passo a Passo:**
+1. Verificar localização padrão de skills no Antigravit (`.antigravity/` ou `_agents/`)
+2. Criar `.antigravity/skills/` 
+3. Migrar cada skill:
+   - `squad.md` → adaptar hooks internos (PreToolUse/SubagentStop/Stop não funcionam no Antigravit nativamente)
+   - `clone-mind.md` → manter integralmente
+   - `enhance-workflow.md` → manter integralmente
+   - Skills em subpastas (`architect-first/`, `checklist-runner/`, etc.) → manter estrutura
+4. Para hooks dentro das skills (ex: `squad.md` tem `hooks: PreToolUse/SubagentStop/Stop`):
+   - Remover seção `hooks:` das skills
+   - Converter para instruções na seção de persona/commands
+
+---
+
+#### 6. Commands (Slash Commands)
+**Status: ⚡ PARCIAL**
+
+O Claude Code possui um sistema de slash commands (`/namespace:command`) ativados por `/`. O Antigravit possui sistema de **workflows** (pasta `_agents/workflows/` ou `.antigravity/workflows/`) que é equivalente.
+
+**Mapeamento:**
+
+| Claude Command | Antigravit Equivalent |
+|---------------|----------------------|
+| `/greet` | Instrução inline no agente (greeting automático) |
+| `/AIOS:agents:{name}` | `@agent-name` ou invocação direta |
+| `/synapse:manager` | Workflow em `.antigravity/workflows/synapse.md` |
+| `/cohort-squad:agents:{name}` | Workflow em `.antigravity/workflows/cohort-squad.md` |
+| `/design-system:{action}` | Workflow em `.antigravity/workflows/design-system.md` |
+
+**Passo a Passo:**
+1. Criar `.antigravity/workflows/` (ou usar `_agents/workflows/` se já existir)
+2. Converter cada namespace de commands em um workflow file
+3. O arquivo `greet.md` é Claude Code-specific → incorporar lógica no ANTIGRAVITY.md
+4. Commands AIOS → criar workflows equivalentes com mesmo comportamento
+5. Design-system commands → workflow com passos estruturados
+
+---
+
+#### 7. Templates
+**Status: ✅ REPLICÁVEL**
+
+Templates são arquivos YAML/MD agnósticos a ferramentas.
+
+**Passo a Passo:**
+1. Criar `.antigravity/templates/`
+2. Copiar todos os 18 templates de `.claude/templates/` para `.antigravity/templates/`
+3. Nenhuma adaptação necessária — templates são puramente documentais
+4. Referenciar templates no ANTIGRAVITY.md
+
+---
+
+#### 8. Agent Memory (Memória Persistente)
+**Status: ✅ REPLICÁVEL**
+
+O Antigravit tem seu próprio sistema de memória persistente via `brain/` e Knowledge Items (KIs). A memória de agentes do Claude é armazenada em `.claude/agent-memory/{agent-id}/MEMORY.md`.
+
+**Mapeamento:**
+
+| Claude | Antigravit |
+|--------|-----------|
+| `.claude/agent-memory/{id}/MEMORY.md` | `.antigravity/agent-memory/{id}/MEMORY.md` |
+| Context via `/compact` | Context via KI system + brain/ |
+| Handoff YAML (~379 tokens) | Conversation logs + KIs persistentes |
+
+**Passo a Passo:**
+1. Criar `.antigravity/agent-memory/` com mesmo estrutura
+2. Migrar/copiar MEMORY.md de cada agente
+3. Documentar no ANTIGRAVITY.md como agentes devem ler/atualizar sua memória
+4. Criar KIs (Knowledge Items) para conhecimento crítico dos agentes
+
+---
+
+#### 9. Constitution e Princípios (NON-NEGOTIABLE)
+**Status: ✅ REPLICÁVEL**
+
+O `.aios-core/constitution.md` define os princípios inegociáveis. No Antigravit, isso vai no ANTIGRAVITY.md como seção destacada.
+
+**Artigos da Constitution:**
+| Artigo | Princípio | Implementação Antigravit |
+|--------|-----------|--------------------------|
+| I | CLI First | Seção em ANTIGRAVITY.md |
+| II | Agent Authority | `.antigravity/rules/agent-authority.md` |
+| III | Story-Driven Development | `.antigravity/rules/story-lifecycle.md` |
+| IV | No Invention | Instrução no ANTIGRAVITY.md |
+| V | Quality First | `.antigravity/rules/workflow-execution.md` |
+| VI | Absolute Imports | Instrução no ANTIGRAVITY.md |
+
+---
+
+#### 10. MCP Usage (3-Tier Tool Mesh)
+**Status: ⚡ PARCIAL**
+
+O Claude Code usa um sistema de 3 tiers para ferramentas MCP (Always/Deferred/Via Search). O Antigravit tem MCP servers disponíveis (stitch, etc.) mas com configuração diferente.
+
+**Passo a Passo:**
+1. Criar `.antigravity/rules/tool-usage.md` (adaptação do mcp-usage.md)
+2. Mapear ferramentas nativas do Antigravit:
+   - `view_file`, `grep_search`, `find_by_name` (equivalentes a Read/Grep/Glob do Claude)
+   - `run_command` (equivalente a Bash)
+   - `write_to_file`, `replace_file_content` (equivalentes a Write/Edit)
+   - `browser_subagent` (não existe no Claude Code — vantagem do Antigravit!)
+   - `generate_image` (não existe no Claude Code — vantagem do Antigravit!)
+3. Documentar MCPs disponíveis (stitch, etc.)
+
+---
+
+## Funcionalidades Impossíveis de Replicar
+
+> [!WARNING]
+> As seguintes funcionalidades são exclusivas do sistema de hooks do Claude Code e **não podem ser replicadas** no Antigravit de forma nativa.
+
+### 1. PreToolUse Hooks (Blocagem em Tempo Real)
+**Por que é impossível:** O Claude Code possui um mecanismo interno de interceptação de chamadas de ferramentas antes da execução. O Antigravit não expõe este ponto de interceptação.
+
+**Impacto:** Sem hooks automáticos, a governança depende de que o agente siga regras instrucionais. Isso é menos robusto que bloqueios hard-coded.
+
+**Mitigação:** Regras explícitas em ANTIGRAVITY.md + rules/ + checklists de self-validation
+
+### 2. `/compact` Nativo com Handoff de 379 tokens
+**Por que é impossível:** O Claude Code possui um comando de compactação de contexto integrado que gera automaticamente artefatos de handoff de ~379 tokens. O Antigravit usa um sistema diferente (KI + brain/).
+
+**Mitigação:** Usar o sistema de KIs do Antigravit para handoffs; criar protocolo manual de handoff nos rules
+
+### 3. Slash Commands Nativos (`/namespace:command`)
+**Por que é impossível:** O sistema de slash commands é uma feature exclusiva da interface do Claude Code. O Antigravit usa workflows.
+
+**Mitigação:** Converter todos os slash commands em workflows equivalentes
+
+### 4. `settings.local.json` com `hooks` e `deny/allow`
+**Por que é impossível:** O arquivo `settings.local.json` é específico do Claude Code e não existe no Antigravit.
+
+**Mitigação:** Permissões documentadas em ANTIGRAVITY.md; deny rules implementadas como instruções de comportamento
+
+### 5. GreetingBuilder.js (`/greet` command)
+**Por que é impossível:** O `/greet` command executa um script JavaScript (`greeting-builder.js`) que analisa o histórico de conversação e estado do git para gerar greeting contextual. Claude Code executa scripts durante a inicialização; o Antigravit não tem este lifecycle hook.
+
+**Mitigação:** Embedding do greeting diretamente em cada arquivo de agente (estático mas funcional)
+
+---
+
+## Funcionalidades Exclusivas do Antigravit (Vantagens)
+
+> [!TIP]
+> O Antigravit possui funcionalidades que o Claude Code **não tem**, que podem enriquecer o AIOS:
+
+| Funcionalidade | Descrição |
+|---------------|-----------|
+| `browser_subagent` | Automação de browser com gravação de vídeo em WebP |
+| `generate_image` | Geração de imagens com Stitch MCP |
+| `mcp_stitch_*` | 8 ferramentas do Stitch MCP para design de interfaces |
+| Knowledge Items (KI) | Sistema de memória persistente entre conversas com artefatos estruturados |
+| Conversation Logs | Histórico completo de conversas em `brain/` para contexto persistente |
+| `task_boundary` | Sistema de comunicação de progresso de tasks ao usuário |
+| Artifacts (`brain/`) | Sistema de artefatos persistentes entre sessões |
+
+---
+
+## Roadmap de Implementação (4 Partes)
+
+### 🔴 Parte 1 — Fundação (Prioridade Alta)
+
+**Objetivo:** Estabelecer a estrutura base do `.antigravity` com os documentos essenciais.
+
+**Entregas:**
+1. **`ANTIGRAVITY.md`** — Documento master equivalente ao CLAUDE.md
+   - Constitution (6 artigos)
+   - Tabela de agentes com persona e escopo
+   - CLI First hierarchy
+   - Comandos frequentes adaptados para Antigravit
+   - Context Management para o sistema de brain/KI
+   
+2. **`.antigravity/rules/`** — 10 rules migradas e adaptadas
+   - `agent-authority.md` — matrix de delegação
+   - `agent-handoff.md` — protocolo KI-based
+   - `workflow-execution.md` — 4 workflows primários
+   - `story-lifecycle.md` — ciclo de vida de stories
+   - `governance.md` — regras que substituem os hooks (NOVO)
+   - `tool-usage.md` — equivalente do mcp-usage para Antigravit (NOVO)
+
+3. **`.antigravity/agent-memory/`** — Estrutura de memória 
+
+---
+
+### 🟡 Parte 2 — Agentes Core (Prioridade Alta)
+
+**Objetivo:** Migrar os 10 agentes AIOS core e o squad-chief.
+
+**Entregas:**
+1. **`.antigravity/agents/`** — 10 agentes core adaptados
+   - aios-dev, aios-qa, aios-architect, aios-pm, aios-po
+   - aios-sm, aios-analyst, aios-data-engineer, aios-ux, aios-devops
+   - Adaptar activation-instructions (remover /greet, adaptar sintaxe)
+
+2. **`squad-chief.md`** — Agente orquestrador principal (70KB)
+   - Adaptar hooks internos para rules instrucionais
+   - Manter toda lógica de DNA extraction e mind-clone
+
+3. **`.antigravity/agent-memory/{agent-id}/MEMORY.md`** — Memória inicial
+
+---
+
+### 🟠 Parte 3 — Skills, Workflows e Templates (Prioridade Média)
+
+**Objetivo:** Migrar skills, converter commands em workflows, e migrar templates.
+
+**Entregas:**
+1. **`.antigravity/skills/`** — 12 skills migradas
+   - Remover seção `hooks:` das skills (PreToolUse/SubagentStop/Stop)
+   - Adaptar `squad.md` (skill mais complexa, com 3 subagentes)
+   
+2. **`.antigravity/workflows/`** — Conversão de commands em workflows
+   - `synapse.md` — Sistema Synapse
+   - `cohort-squad.md` — Squad cohorte
+   - `design-system.md` — Design system
+   - `aios-agents.md` — Ativação de agentes AIOS
+
+3. **`.antigravity/templates/`** — 18 templates (cópia direta, sem adaptação)
+
+---
+
+### 🟢 Parte 4 — Chiefs, Mind Clones e Governança Avançada (Prioridade Baixa)
+
+**Objetivo:** Migrar agentes avançados e estabelecer governança completa.
+
+**Entregas:**
+1. **Chiefs (8 agentes)** — copy-chief, cyber-chief, data-chief, design-chief, etc.
+
+2. **Mind Clones (5 agentes)** — oalanicolas, pedro-valerio, brad-frost, dan-mall, dave-malouf
+
+3. **Governance Workarounds** — Checklists e automações que substituem os hooks
+   - Script de validação manual para paths protegidos
+   - Checklist de pre-operação para operações críticas
+   - Template de self-validation antes de escrever código
+
+4. **KI Creation** — Criar Knowledge Items para:
+   - Constitution do AIOS
+   - Protocolo de handoff de agentes
+   - Padrões de workflow execution
+   - Squad creation patterns
+
+---
+
+### 🔵 Parte 5 — Adaptação do Sistema de Squads (Squad Management)
+
+**Objetivo:** Consolidar e adaptar o fluxo de criação e gestão de squads para o modelo nativo Antigravit, corrigindo referências quebradas e garantindo sincronização com Synkra API.
+
+> [!IMPORTANT]
+> **Interoperabilidade Claude:** Esta adaptação é 100% paralela. O ambiente `.claude/` e seus processos originais permanecem intactos. As mudanças ocorrem exclusivamente em `.antigravity/` e no novo diretório `squads/squad-creator/`.
+
+**Entregas:**
+1. **`squads/squad-creator/`** — Squad mestre orquestrador de projeto (novo path).
+2. **`tasks/create-squad.md`** — Lógica de criação adaptada para Antigravit.
+3. **`tasks/sync-squads.md`** — Integração com Synkra API Marketplace.
+4. **Agentes Mind Cloning** — Adaptação de `@oalanicolas` e `@pedro-valerio`.
+5. **PRD de Adaptação** — [docs/architecture/squad-management-adaptation-prd.md](file:///f:/Projetos%20Códigos/AIOS%20Agentes/modulo-antigravity-001/docs/architecture/squad-management-adaptation-prd.md)
+
+---
+
+## Validação e Melhores Práticas
+
+### Critérios de Sucesso
+
+| Critério | Como Validar |
+|----------|-------------|
+| Agentes respondem corretamente | Ativar cada agente e verificar greeting + persona |
+| Rules são respeitadas | Testar cenários de violação (ex: tentar push sem @devops) |
+| Workflows executam corretamente | Executar fluxo SDC completo |
+| Squad creation funciona | Criar um squad de teste via squad-chief |
+| Templates são utilizáveis | Gerar um PRD usando prd-tmpl.yaml |
+| Memory persiste | Verificar MEMORY.md após sessão de agente |
+
+### Melhores Práticas para o Antigravit
+
+1. **Usar KIs para conhecimento crítico** — O Antigravit tem sistema superior de memória cross-session
+2. **Prefira workflows sobre commands** — Workflows são mais expressivos no Antigravit
+3. **Explorar browser_subagent** — Funcionalidade única que o Claude não tem
+4. **Usar generate_image + Stitch MCP** — Para design system e UX, o Antigravit é superior
+5. **Manter governance.md atualizada** — Compensa a ausência de hooks com regras claras
+6. **Criar KIs após cada squad criado** — Para persistir conhecimento entre sessões
+
+---
+
+## Estado Atual vs. Estado Alvo
+
+| Componente | Estado Atual | Estado Alvo |
+|-----------|-------------|-------------|
+| ANTIGRAVITY.md | ❌ Não existe | ✅ Documento completo |
+| `.antigravity/rules/` | ⚠️ Vazia | ✅ 10+ rules migradas |
+| `.antigravity/agents/` | ❌ Não existe | ✅ 29 agentes |
+| `.antigravity/skills/` | ❌ Não existe | ✅ 12 skills |
+| `.antigravity/workflows/` | ❌ Não existe | ✅ Workflows convertidos |
+| `.antigravity/templates/` | ❌ Não existe | ✅ 18 templates |
+| `.antigravity/agent-memory/` | ❌ Não existe | ✅ Memória por agente |
+| Hooks de governança | ❌ Impossível nativo | ⚡ Rules instrucionais |
+| Slash commands | ❌ Impossível nativo | ⚡ Workflows equivalentes |
+
+---
+
+*PRD criado em 2026-02-25 | Análise de migração .claude → .antigravity*
+*Versão: 1.0 — Fase 1 (Análise e Planejamento)*

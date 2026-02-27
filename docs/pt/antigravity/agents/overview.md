@@ -6,12 +6,26 @@ O Antigravit possui **28 agentes** organizados em 4 categorias, todos residentes
 
 ## Categorias de Agentes
 
-| Categoria                        | Quantidade | Descrição                                            |
-| -------------------------------- | ---------- | ---------------------------------------------------- |
-| [Core AIOS](./core-agents.md)    | 11         | Agentes fundamentais do ciclo de desenvolvimento     |
-| [Chiefs](./chiefs.md)            | 8          | Orquestradores especializados por domínio de negócio |
-| [Mind Clones](./mind-clones.md)  | 5          | Clones de mentes reais (Design Squad)                |
-| [Especiais](./special-agents.md) | 4          | Agentes com capacidades únicas                       |
+| Categoria                                | Quantidade | Descrição                                            |
+| ---------------------------------------- | ---------- | ---------------------------------------------------- |
+| [Core AIOS](./core/aios-dev.md)          | 11         | Agentes fundamentais do ciclo de desenvolvimento     |
+| [Chiefs](./chiefs/copy-chief.md)         | 8          | Orquestradores especializados por domínio de negócio |
+| [Mind Clones](./minds/brad-frost.md)     | 5          | Clones de mentes reais (Design Squad)                |
+| [Especiais](./specials/design-system.md) | 6          | Agentes com capacidades únicas                       |
+
+### Índice Completo de Agentes
+
+**Core AIOS:**
+[aios-dev](./core/aios-dev.md) • [aios-qa](./core/aios-qa.md) • [aios-architect](./core/aios-architect.md) • [aios-pm](./core/aios-pm.md) • [aios-po](./core/aios-po.md) • [aios-sm](./core/aios-sm.md) • [aios-analyst](./core/aios-analyst.md) • [aios-data-engineer](./core/aios-data-engineer.md) • [aios-ux](./core/aios-ux.md) • [aios-devops](./core/aios-devops.md) • [squad-chief](./core/squad-chief.md)
+
+**Chiefs:**
+[copy-chief](./chiefs/copy-chief.md) • [cyber-chief](./chiefs/cyber-chief.md) • [data-chief](./chiefs/data-chief.md) • [design-chief](./chiefs/design-chief.md) • [legal-chief](./chiefs/legal-chief.md) • [story-chief](./chiefs/story-chief.md) • [traffic-masters-chief](./chiefs/traffic-masters-chief.md) • [squad-chief](./chiefs/squad-chief.md)
+
+**Mind Clones:**
+[brad-frost](./minds/brad-frost.md) • [dan-mall](./minds/dan-mall.md) • [dave-malouf](./minds/dave-malouf.md) • [oalanicolas](./minds/oalanicolas.md) • [pedro-valerio](./minds/pedro-valerio.md)
+
+**Especiais:**
+[design-system](./specials/design-system.md) • [ui-builder](./specials/ui-builder.md) • [db-sage](./specials/db-sage.md) • [nano-banana-generator](./specials/nano-banana-generator.md) • [sop-extractor](./specials/sop-extractor.md) • [tools-orchestrator](./specials/tools-orchestrator.md)
 
 ---
 

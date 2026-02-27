@@ -29,38 +29,38 @@ description: breve descrição do workflow
 
 ### Greenfield — Projetos Novos
 
-| Workflow               | Quando Usar                        | Responsável                                                      |
-| ---------------------- | ---------------------------------- | ---------------------------------------------------------------- |
-| `greenfield-fullstack` | Nova aplicação full-stack do zero  | `@analyst → @pm → @ux → @architect → @po → @dev → @qa → @devops` |
-| `greenfield-service`   | Novo backend/API do zero           | `@architect → @data-engineer → @dev → @qa`                       |
-| `greenfield-ui`        | Novo frontend/landing page do zero | `@ux → @ui-builder → @qa` (+ Stitch MCP)                         |
+| Workflow                                                     | Quando Usar                        | Responsável                                                      |
+| ------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------- |
+| [`greenfield-fullstack`](greenfield/greenfield-fullstack.md) | Nova aplicação full-stack do zero  | `@analyst → @pm → @ux → @architect → @po → @dev → @qa → @devops` |
+| [`greenfield-service`](greenfield/greenfield-service.md)     | Novo backend/API do zero           | `@architect → @data-engineer → @dev → @qa`                       |
+| [`greenfield-ui`](greenfield/greenfield-ui.md)               | Novo frontend/landing page do zero | `@ux → @ui-builder → @qa` (+ Stitch MCP)                         |
 
 ### Brownfield — Projetos Existentes
 
-| Workflow               | Quando Usar                        | Responsável                                    |
-| ---------------------- | ---------------------------------- | ---------------------------------------------- |
-| `brownfield-discovery` | Novo no projeto — precisa entender | `@architect → @analyst → @data-engineer → @ux` |
-| `brownfield-fullstack` | Adicionar feature full-stack       | `@architect → @dev → @qa → @devops`            |
-| `brownfield-service`   | Adicionar endpoint/serviço         | `@data-engineer → @dev → @qa`                  |
-| `brownfield-ui`        | Adicionar página/componente        | `@ux → @ui-builder → @qa` (+ browser_subagent) |
+| Workflow                                                     | Quando Usar                        | Responsável                                    |
+| ------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------- |
+| [`brownfield-discovery`](brownfield/brownfield-discovery.md) | Novo no projeto — precisa entender | `@architect → @analyst → @data-engineer → @ux` |
+| [`brownfield-fullstack`](brownfield/brownfield-fullstack.md) | Adicionar feature full-stack       | `@architect → @dev → @qa → @devops`            |
+| [`brownfield-service`](brownfield/brownfield-service.md)     | Adicionar endpoint/serviço         | `@data-engineer → @dev → @qa`                  |
+| [`brownfield-ui`](brownfield/brownfield-ui.md)               | Adicionar página/componente        | `@ux → @ui-builder → @qa` (+ browser_subagent) |
 
 ### Desenvolvimento e Qualidade
 
-| Workflow                  | Quando Usar                         | Responsável                                        |
-| ------------------------- | ----------------------------------- | -------------------------------------------------- |
-| `story-development-cycle` | Implementar uma story               | `@sm → @po → @dev`/`@ui-builder` `→ @qa → @devops` |
-| `spec-pipeline`           | Ideia → backlog completo            | `@pm → @analyst → @architect → @po → @dev`         |
-| `epic-orchestration`      | Executar épico completo             | `@po → @sm → @dev → @qa → @devops`                 |
-| `qa-loop`                 | QA reprovou → corrigir e re-validar | `@qa → @dev → @qa` (máx. 5 iterações)              |
+| Workflow                                                            | Quando Usar                         | Responsável                                        |
+| ------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------- |
+| [`story-development-cycle`](dev-quality/story-development-cycle.md) | Implementar uma story               | `@sm → @po → @dev`/`@ui-builder` `→ @qa → @devops` |
+| [`spec-pipeline`](dev-quality/spec-pipeline.md)                     | Ideia → backlog completo            | `@pm → @analyst → @architect → @po → @dev`         |
+| [`epic-orchestration`](dev-quality/epic-orchestration.md)           | Executar épico completo             | `@po → @sm → @dev → @qa → @devops`                 |
+| [`qa-loop`](dev-quality/qa-loop.md)                                 | QA reprovou → corrigir e re-validar | `@qa → @dev → @qa` (máx. 5 iterações)              |
 
 ### Especiais
 
-| Workflow              | Quando Usar                          | Responsável                      |
-| --------------------- | ------------------------------------ | -------------------------------- |
-| `design-system-build` | Criar ou refatorar design system     | `@ux → @brad-frost → @dev → @qa` |
-| `stitch-ui-workflow`  | Pipeline mandatório para gerar telas | `@ui-builder` orquestrando MCP   |
-| `create-squad`        | Criar squad de especialistas         | `@squad-chief → @oalanicolas`    |
-| `auto-worktree`       | Desenvolvimento paralelo de features | `@devops`                        |
+| Workflow                                                 | Quando Usar                          | Responsável                      |
+| -------------------------------------------------------- | ------------------------------------ | -------------------------------- |
+| [`design-system-build`](specials/design-system-build.md) | Criar ou refatorar design system     | `@ux → @brad-frost → @dev → @qa` |
+| [`stitch-ui-workflow`](stitch-ui-workflow.md)            | Pipeline mandatório para gerar telas | `@ui-builder` orquestrando MCP   |
+| [`create-squad`](specials/create-squad.md)               | Criar squad de especialistas         | `@squad-chief → @oalanicolas`    |
+| [`auto-worktree`](specials/auto-worktree.md)             | Desenvolvimento paralelo de features | `@devops`                        |
 
 ### Correspondência com Claude Code
 

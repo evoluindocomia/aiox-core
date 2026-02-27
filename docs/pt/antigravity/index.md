@@ -78,6 +78,7 @@ O **Antigravity** é o ambiente de configuração do AIOS para o **Google Gemini
 ### 🚀 Início Rápido
 
 - [Getting Started](./getting-started.md) — Primeiros passos, instalação e ciclo de desenvolvimento
+- [**Guia de Onboarding Definitivo**](./antigravity-guide.md) — Passo-a-passo para setup, workaround de iteração e primeiro projeto
 
 ### 🤖 Agentes
 
@@ -99,6 +100,13 @@ O **Antigravity** é o ambiente de configuração do AIOS para o **Google Gemini
 ### 🏗️ Squads (Packs)
 
 - [Squads & Escalabilidade](./squads/overview.md) — O modelo de packs e o `squad-creator`
+- [Criando Squads](./squads/squad-creator-process.md) — O processo interno de clonagem
+- [Gerenciamento de Squads](./squads/managing-squads.md) — Estrutura e expansão
+
+### 💻 Usabilidade na IDE
+
+- [O Fluxo Diário](./guides/ide-usability.md) — Como pilotar o Antigravity
+- [Context Engine (SYNAPSE)](./guides/context-engine.md) — As 8 camadas de injeção
 
 ### 🔄 Workflows
 
