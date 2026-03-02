@@ -14,6 +14,8 @@ Use this workflow exclusively when:
 - You want to process a single _Story_ whose document rests comfortably in the `docs/stories/` directory under the `Ready` status tag.
 - **MUST NOT** be used if the general architecture changes; this deals only with brick by brick.
 
+> **Interception Note (YOLO vs Default Squad):** Antigravity now features a native _Interception Hook_. If you request the creation of a heavy feature without specifying a Squad, the system will pause and display an alert. You can then engage the **Default Squad**, which will execute this flow (SDC) starting from the PRD or UI Guidelines, avoiding runaway execution in YOLO Mode.
+
 ## 2. The Operational Journey (Phases)
 
 ### Phase 1: Cold Pre-Read

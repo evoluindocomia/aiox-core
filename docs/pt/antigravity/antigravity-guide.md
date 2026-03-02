@@ -67,6 +67,10 @@ Para acionar a magia do AIOS, seu ponto de partida sempre deve ser acionar o wor
    - A `@po` vai segmentar a especificação em Stories executáveis usando o arquivo `story-tmpl.yaml`.
    - O `@dev` implementará o código das Stories e a `@qa` testará.
 
+### 3.1. A Trava de Consciência (YOLO Mode vs Squad Padrão)
+
+Se você disparar um gatilho global sem designar uma Squad explicitamente, o Antigravity irá interceptar o seu pedido. Ele alertará sobre o risco do **YOLO Mode** (execução direta e generalista) e oferecerá a opção de ativar dinamicamente a **Squad Padrão**, que executará o ciclo SDC passo-a-passo com todos os agentes acima.
+
 ---
 
 ## 4. Troubleshooting Comum

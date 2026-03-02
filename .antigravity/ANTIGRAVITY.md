@@ -301,6 +301,10 @@ Seguir Conventional Commits:
 
 > **IMPORTANTE:** O Antigravit não possui o sistema de hooks nativos do Claude Code. As regras abaixo devem ser verificadas **manualmente** antes de cada operação crítica.
 
+### Interceptação de Execução YOLO Mode (Obrigatório)
+
+✅ Quando o usuário pedir implementações complexas (Greenfield, SDC, apps inteiros) **SEM** referenciar uma Squad, você **DEVE** pausar a execução e oferecer a escolha entre a execução direta (YOLO Mode) e a **Squad Padrão**. Consulte a regra completa em `.antigravity/rules/yolo-interception-rule.md` antes de prosseguir.
+
 ### Antes de ESCREVER código em paths protegidos
 
 ✅ Verificar se existe documentação aprovada em `docs/architecture/` ou `docs/approved-plans/`

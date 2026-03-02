@@ -14,6 +14,8 @@ Use este workflow exclusivamente quando:
 - Quer processar uma única _Story_ cujo documento repousa confortavelmente no diretório `docs/stories/` sob a tag de status `Ready`.
 - **NÃO DEVE** ser usado se a arquitetura geral mudar; isto trata apenas de tijolo por tijolo.
 
+> **Nota de Interceptação (YOLO vs Squad Padrão):** O Antigravity agora possui um _Interception Hook_ nativo. Se você solicitar a criação de uma feature pesada sem focar em uma Squad específica, o sistema irá pausar e exibir um alerta. Você poderá então engatar a **Squad Padrão**, que executará este fluxo (SDC) a partir da elaboração do PRD ou UI Guidelines, evitando a execução desgovernada do YOLO Mode.
+
 ## 2. A Jornada Operacional (Fases)
 
 ### Fase 1: Pré-Leitura Fria

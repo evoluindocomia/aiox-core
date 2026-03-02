@@ -67,6 +67,10 @@ To trigger AIOS magic, your starting point is always to call upon initial orches
    - The `@po` will slice the specification into manageable executable Stories using `story-tmpl.yaml`.
    - The `@dev` will implement the backend logic and the `@qa` will formulate tests.
 
+### 3.1. The Awareness Lock (YOLO Mode vs Default Squad)
+
+If you trigger a global action without explicitly designating a Squad, Antigravity will intercept your request. It will warn you about the risk of **YOLO Mode** (direct and generic execution) and offer the option to dynamically activate the **Default Squad**, which will execute the step-by-step SDC cycle with all the agents above.
+
 ---
 
 ## 4. Common Troubleshooting
